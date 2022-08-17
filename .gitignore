@@ -1,0 +1,13 @@
+*.class
+*.log
+target/
+boot/
+lib_managed/
+src_managed/
+project/plugins/project/
+.metals
+.bloop
+.idea/
+.bsp/
+.DS_Store
+test_points.txt
