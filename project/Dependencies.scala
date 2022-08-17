@@ -14,6 +14,8 @@ object Dependencies {
     val scalaTest          = "3.2.13"
     val mockitoScala       = "1.14.4"
     val testContainers     = "1.17.2"
+    val geohash            = "1.4.0"
+    val scalaTestCheck     = "3.2.2.0"
   }
 
   object Libraries {
@@ -31,18 +33,21 @@ object Dependencies {
 
     val mysqlConnectorJava = "mysql" % "mysql-connector-java" % V.mysqlConnectorJava
 
-    val refinedCore = "eu.timepit" %% "refined"      % V.refined
-    val refinedCats = "eu.timepit" %% "refined-cats" % V.refined
+    val refinedCore       = "eu.timepit" %% "refined"            % V.refined
+    val refinedCats       = "eu.timepit" %% "refined-cats"       % V.refined
+    val refinedScalacheck = "eu.timepit" %% "refined-scalacheck" % V.refined % "test, it"
 
     val newtype = "io.estatico" %% "newtype" % V.newtype
+    val geohash = "ch.hsr"       % "geohash" % V.geohash
 
     // Runtime
     val logback = "ch.qos.logback" % "logback-classic" % V.logback
 
     // Test
-    val scalaTest      = "org.scalatest"     %% "scalatest"      % V.scalaTest      % "test, it"
-    val mockitoScala   = "org.mockito"       %% "mockito-scala"  % V.mockitoScala   % "test, it"
-    val testContainers = "org.testcontainers" % "testcontainers" % V.testContainers % "it"
+    val scalaTest      = "org.scalatest"     %% "scalatest"       % V.scalaTest      % "test, it"
+    val scalaTestCheck = "org.scalatestplus" %% "scalacheck-1-14" % V.scalaTestCheck % "test, it"
+    val mockitoScala   = "org.mockito"       %% "mockito-scala"   % V.mockitoScala   % "test, it"
+    val testContainers = "org.testcontainers" % "testcontainers"  % V.testContainers % "it"
 
   }
 }
