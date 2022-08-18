@@ -138,13 +138,13 @@ You should configure the `env` variables in IntelliJ IDEA for running and debugg
 In other case the application won't execute.
 
 #### Instructions
-1. Open edit Run/Debug configuration dialog
-   ![config_runner](images/config_runner.png)
+- Open edit Run/Debug configuration dialog
+  ![config_runner](images/config_runner.png)
    
-2. Click in the red rectangle in order to configure the environment variables 
+- Click in the red rectangle in order to configure the environment variables 
    ![config_env_options](images/configurations.png)
    
-3. Add the environment variables required
+- Add the environment variables required
    ![config_env_options](images/env_var.png)
    
 ### Known issue
