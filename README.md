@@ -36,7 +36,7 @@ Here is a brief preview of what you will find on the [Solution](docs/Solution.md
 ### :arrow_right: Table of contents
 - [Terminology](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#terminology)
 - [Solution](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#solution)
-    - [Package structure]((https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#package-structure))
+    - [Package structure](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#package-structure)
     - [Libraries](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#libraries)
     - [Parallelization](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#parallelization)
 - [Architecture Decision Records](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#architecture-decision-records)
