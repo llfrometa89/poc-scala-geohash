@@ -5,7 +5,8 @@ import cats.implicits._
 import com.stuart.geohash.application.dto.geohash._
 import com.stuart.geohash.cross.GenGeoHash
 import com.stuart.geohash.cross.implicits._
-import com.stuart.geohash.domain.model.geohash.{GeoHash, GeoHashMaxPrecision, GeoPoint, UniquePrefix}
+import com.stuart.geohash.domain.models.geohash.{GeoHash, GeoHashMaxPrecision, GeoPoint, UniquePrefix}
+import com.stuart.geohash.domain.repositories.GeoHashRepository
 
 import java.io.BufferedReader
 
@@ -23,7 +24,7 @@ trait ImportGeoHash[F[_]] {
 
 object ImportGeoHash {
 
-  def make[F[_]: Sync: GenGeoHash]: ImportGeoHash[F] = new ImportGeoHash[F] {
+  def make[F[_]: Sync: GenGeoHash](repository: GeoHashRepository[F]): ImportGeoHash[F] = new ImportGeoHash[F] {
 
     final val MaxPrecision = 12
 
@@ -51,12 +52,18 @@ object ImportGeoHash {
         lines     <- readBatch(buffer, batch)
         geoPoints <- lines.traverse(toImportGeoPoint)
         geoHashes <- geoPoints.traverse(gp => mkGeoHash(gp.toGeoPoint))
+        _         <- geoHashes.traverse(mkSaveGeoHash)
         geoHashesAsDto  = geoHashes.map(GeoHashDTO.fromGeoHash)
         geoHashesMerged = list ::: geoHashesAsDto
         accumulator <-
-          if (isBatchFinish(lines)) Sync[F].pure(geoHashesMerged)
+          if (isBatchFinish(lines)) geoHashesMerged.pure[F]
           else onBatchFinish >> processGeoPoints(buffer, geoHashesMerged)
       } yield accumulator
+
+      def mkSaveGeoHash(geoHash: GeoHash): F[Unit] = for {
+        mGeoHash <- repository.findBy(geoHash.geoHash)
+        _        <- Sync[F].whenA(mGeoHash.isEmpty)(repository.create(geoHash))
+      } yield ()
 
       file.use { buffer =>
         for {

@@ -4,7 +4,7 @@ import cats.effect.IO
 import cats.effect.unsafe.implicits.global
 import com.stuart.geohash.UnitSpec
 import com.stuart.geohash.cross.GenGeoHash
-import com.stuart.geohash.domain.model.geohash.GeoPoint
+import com.stuart.geohash.domain.models.geohash.GeoPoint
 import com.stuart.geohash.fixtures.ErrorFixture
 import com.stuart.geohash.generators.geohash._
 import com.stuart.geohash.cross.implicits._

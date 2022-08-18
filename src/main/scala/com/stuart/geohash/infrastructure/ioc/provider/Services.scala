@@ -8,8 +8,8 @@ sealed abstract class Services[F[_]] private (
 )
 
 object Services {
-  def make[F[_]: Sync](): Services[F] =
+  def make[F[_]: Sync](repositories: Repositories[F]): Services[F] =
     new Services[F](
-      importGeoHash = ImportGeoHash.make[F]
+      importGeoHash = ImportGeoHash.make[F](repositories.geoHash)
     ) {}
 }

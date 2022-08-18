@@ -1,4 +1,4 @@
-package com.stuart.geohash.domain.model
+package com.stuart.geohash.domain.models
 
 import io.estatico.newtype.macros.newtype
 

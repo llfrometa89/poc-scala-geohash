@@ -2,7 +2,7 @@ package com.stuart.geohash.application.dto
 
 import cats.effect.Sync
 import cats.implicits._
-import com.stuart.geohash.domain.model.geohash.{GeoHash, GeoPoint, Latitude, Longitude}
+import com.stuart.geohash.domain.models.geohash.{GeoHash, GeoPoint, Latitude, Longitude}
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.Interval
 import eu.timepit.refined.{refineV, W}
@@ -40,8 +40,8 @@ object geohash {
 
   object GeoHashDTO {
 
-    implicit val brandDtoEncoder: Encoder[GeoHashDTO] = deriveEncoder[GeoHashDTO]
-    implicit val brandDtoDecoder: Decoder[GeoHashDTO] = deriveDecoder[GeoHashDTO]
+    implicit val geoHashDtoEncoder: Encoder[GeoHashDTO] = deriveEncoder[GeoHashDTO]
+    implicit val geoHashDtoDecoder: Decoder[GeoHashDTO] = deriveDecoder[GeoHashDTO]
 
     def fromGeoHash(geoHash: GeoHash): GeoHashDTO =
       GeoHashDTO(

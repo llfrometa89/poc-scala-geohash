@@ -3,7 +3,7 @@ package com.stuart.geohash.cross
 import cats.effect.Sync
 import cats.implicits._
 import ch.hsr.geohash.GeoHash
-import com.stuart.geohash.domain.model.geohash.GeoPoint
+import com.stuart.geohash.domain.models.geohash.GeoPoint
 
 trait GenGeoHash[F[_]] {
 

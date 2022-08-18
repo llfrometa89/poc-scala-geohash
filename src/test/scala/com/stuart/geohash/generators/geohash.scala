@@ -1,6 +1,6 @@
 package com.stuart.geohash.generators
 
-import com.stuart.geohash.domain.model.geohash.{GeoPoint, Latitude, Longitude}
+import com.stuart.geohash.domain.models.geohash.{GeoPoint, Latitude, Longitude}
 import org.scalacheck.{Arbitrary, Gen}
 
 object geohash {

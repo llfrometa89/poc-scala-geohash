@@ -1,3 +1,4 @@
+import Dependencies.Libraries.ciris
 import sbt._
 
 object Dependencies {
@@ -18,12 +19,14 @@ object Dependencies {
     val scalaTestCheck     = "3.2.2.0"
     val commonsCli         = "1.5.0"
     val circe              = "0.14.2"
+    val ciris              = "2.3.2"
   }
 
   object Libraries {
 
     def doobie(artifact: String): ModuleID = "org.tpolecat" %% s"doobie-$artifact" % V.doobie
     def circe(artifact: String): ModuleID  = "io.circe"     %% s"circe-$artifact"  % V.circe
+    def ciris(artifact: String): ModuleID  = "is.cir"       %% artifact            % V.ciris
 
     val cats       = "org.typelevel" %% "cats-core"      % V.cats
     val catsEffect = "org.typelevel" %% "cats-effect"    % V.catsEffect
@@ -38,6 +41,10 @@ object Dependencies {
     val doobieHikari    = doobie("hikari")
     val doobieH2        = doobie("h2")
     val doobieScalatest = doobie("scalatest")
+
+    val cirisCore    = ciris("ciris")
+    val cirisEnum    = ciris("ciris-enumeratum")
+    val cirisRefined = ciris("ciris-refined")
 
     val mysqlConnectorJava = "mysql" % "mysql-connector-java" % V.mysqlConnectorJava
 

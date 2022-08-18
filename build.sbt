@@ -47,7 +47,10 @@ lazy val dependencies = Seq(
   Libraries.circeCore,
   Libraries.circeGeneric,
   Libraries.circeParser,
-  Libraries.circeRefined
+  Libraries.circeRefined,
+  Libraries.cirisCore,
+  Libraries.cirisEnum,
+  Libraries.cirisRefined
 )
 
 lazy val testDependencies = Seq(
