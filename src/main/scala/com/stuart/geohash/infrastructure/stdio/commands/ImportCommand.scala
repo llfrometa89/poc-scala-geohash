@@ -23,7 +23,8 @@ object ImportCommand {
   def make[F[_]: Sync](commandOptions: CommandOptions[F], importGeoHash: ImportGeoHash[F]): ImportCommand[F] =
     new ImportCommand[F] {
 
-      final val DefaultBatch = 100L
+      final val DefaultBatch     = 100L
+      final val DefaultPrecision = 5
 
       def run(args: Array[String]): F[Unit] = for {
         parser  <- CommandLineRunnerHelper.parser[F]()
@@ -45,10 +46,12 @@ object ImportCommand {
         Resource.make(openFile(filename))(file => closeFile(file))
 
       private def mkImport(cmd: CommandLine): F[Unit] = for {
-        filename <- Sync[F].delay(cmd.getOptionValue(CommandOptionsKeyword.file))
-        mBatch   <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.batch)).map(_.toLong))
-        batch    <- Sync[F].pure(mBatch.getOrElse(DefaultBatch))
-        _        <- importGeoHash.importGeoHash(mkFileResource(filename), batch)
+        filename   <- Sync[F].delay(cmd.getOptionValue(CommandOptionsKeyword.file))
+        mBatch     <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.batch)).map(_.toLong))
+        mPrecision <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.batch)).map(_.toInt))
+        batch      <- Sync[F].pure(mBatch.getOrElse(DefaultBatch))
+        precision  <- Sync[F].pure(mPrecision.getOrElse(DefaultPrecision))
+        _          <- importGeoHash.importGeoHash(mkFileResource(filename), batch, precision)
       } yield ()
     }
 }

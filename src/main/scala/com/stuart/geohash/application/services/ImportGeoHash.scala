@@ -1,6 +1,6 @@
 package com.stuart.geohash.application.services
 
-import cats.effect.{MonadCancelThrow, Resource, Sync}
+import cats.effect.{Resource, Sync}
 import cats.implicits._
 import com.stuart.geohash.application.dto.geohash._
 import com.stuart.geohash.cross.GenGeoHash
@@ -9,14 +9,14 @@ import java.io.BufferedReader
 
 trait ImportGeoHash[F[_]] {
 
-  def importGeoHash(file: Resource[F, BufferedReader], batch: Long): F[List[GeoHashDTO]]
+  def importGeoHash(file: Resource[F, BufferedReader], batch: Long, precision: Int): F[List[GeoHashDTO]]
 }
 
 object ImportGeoHash {
 
   def make[F[_]: Sync: GenGeoHash]: ImportGeoHash[F] = new ImportGeoHash[F] {
 
-    def importGeoHash(file: Resource[F, BufferedReader], batch: Long): F[List[GeoHashDTO]] =
+    def importGeoHash(file: Resource[F, BufferedReader], batch: Long, precision: Int): F[List[GeoHashDTO]] =
       file.use { buffer =>
         for {
           lines     <- readBatch(buffer, batch)
