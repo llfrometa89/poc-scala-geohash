@@ -9,7 +9,7 @@ object geohash {
   @newtype case class GeoHashMaxPrecision(value: String)
   @newtype case class UniquePrefix(value: String)
 
-  case class Point(latitude: Latitude, longitude: Longitude)
+  case class GeoPoint(latitude: Latitude, longitude: Longitude)
 
-  case class GeoHash(point: Point, geohash: GeoHashMaxPrecision, uniquePrefix: UniquePrefix)
+  case class GeoHash(point: GeoPoint, geohash: GeoHashMaxPrecision, uniquePrefix: UniquePrefix)
 }

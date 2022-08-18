@@ -3,12 +3,12 @@ package com.stuart.geohash.infrastructure.generators
 import cats.effect.IO
 import cats.effect.unsafe.implicits.global
 import com.stuart.geohash.UnitSpec
-import com.stuart.geohash.domain.model.geohash.{Latitude, Longitude, Point}
-import com.stuart.geohash.domain.service.GenGeoHash
+import com.stuart.geohash.cross.GenGeoHash
+import com.stuart.geohash.domain.model.geohash.GeoPoint
 import com.stuart.geohash.fixtures.ErrorFixture
 import com.stuart.geohash.generators.geohash._
 
-class GeoHashGeneratorSpec extends UnitSpec with ErrorFixture {
+class GenGeoHashSpec extends UnitSpec with ErrorFixture {
 
   "make a geohash" should "return a geohash as string" in {
     forAll(pointGen, precisionGen, geohashAsStringGen) { case (point, precision, geohashAsString) =>
@@ -27,16 +27,16 @@ class GeoHashGeneratorSpec extends UnitSpec with ErrorFixture {
   }
 
   def dataMakeGeoHash(geohashAsString: String): TestGenGeoHash = new TestGenGeoHash {
-    override def make(point: Point, precision: Int): IO[String] =
+    override def make(point: GeoPoint, precision: Int): IO[String] =
       IO.pure(geohashAsString)
   }
 
   def failingMakeGeoHash(geohashAsString: String): TestGenGeoHash = new TestGenGeoHash {
-    override def make(point: Point, precision: Int): IO[String] =
+    override def make(point: GeoPoint, precision: Int): IO[String] =
       IO.raiseError(DummyError("error")) *> IO.pure(geohashAsString)
   }
 }
 
 protected class TestGenGeoHash extends GenGeoHash[IO] {
-  def make(point: Point, precision: Int): IO[String] = IO.pure("")
+  def make(point: GeoPoint, precision: Int): IO[String] = IO.pure("")
 }
