@@ -28,3 +28,24 @@ lat,lng,geohash,uniq
 - Clever but justified usage of tailored data structures
 - Command line helpers and user friendlyness
 - Building instructions if required
+
+## :briefcase: Solution
+You can find the detailed description of the developed solution on the Solution page. 
+Here is a brief preview of what you will find on the [Solution](docs/Solution.md) page.
+
+### :arrow_right: Table of content
+- Terminology
+- Solution
+    - Package structure
+    - Libraries
+    - Parallelization
+- Architecture Decision Records
+- Testing
+- Building
+- Running Stuart GeoHash CLI
+- Supporting IntelliJ IDEA
+- Known issue
+- How to contribute
+
+#### :clapper: Spoiler alert
+![geohashcli](docs/images/geohashcli.png)
