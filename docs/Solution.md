@@ -121,7 +121,7 @@ To run Integration Tests execute:
 geohashcli import --file=test_points.txt --precision=5 --batch=500 --format=csv
 ```
 - `file` filename of the file in `csv` format
-- `precision` is the value to set in the geohash generation process. 
+- `precision` = ... `5` to `12` is the value to set in the geohash generation process. 
 - `format` = `json` | `csv`.It's means the console output int this iteration.
 - `batch` batch size
 #### Help command
