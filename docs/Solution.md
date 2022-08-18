@@ -139,7 +139,7 @@ In other case the application won't execute.
 
 #### Instructions
 - Open edit Run/Debug configuration dialog
-![config_runner](images/config_runner.png)
+<img style="float: left;" src="images/config_runner.png">
 
 - Click in the red rectangle in order to configure the environment variables 
 ![config_env_options](images/configurations.png)
