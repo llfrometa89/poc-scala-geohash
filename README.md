@@ -33,19 +33,20 @@ lat,lng,geohash,uniq
 You can find the detailed description of the developed solution on the Solution page. 
 Here is a brief preview of what you will find on the [Solution](docs/Solution.md) page.
 
-### :arrow_right: Table of content
-- Terminology
-- Solution
-    - Package structure
-    - Libraries
-    - Parallelization
-- Architecture Decision Records
-- Testing
-- Building
-- Running Stuart GeoHash CLI
-- Supporting IntelliJ IDEA
-- Known issue
-- How to contribute
+### :arrow_right: Table of contents
+- [Terminology](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#terminology)
+- [Solution](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#solution)
+    - [Package structure]((https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#package-structure))
+    - [Libraries](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#libraries)
+    - [Parallelization](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#parallelization)
+- [Architecture Decision Records](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#architecture-decision-records)
+- [Testing](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#testing)
+- [Building](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#building)
+- [Running Stuart GeoHash CLI](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#running-stuart-geohash-cli)
+- [Supporting IntelliJ IDEA](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#running-stuart-geohash-cli)
+- [Known issue](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#known-issue)
+- [How to contribute](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#how-to-contribute)
 
-#### :clapper: Spoiler alert
+### :clapper: Spoiler alert!
+Here is a first look at what the developed command line application looks like.
 ![geohashcli](docs/images/geohashcli.png)

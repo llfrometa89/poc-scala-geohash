@@ -9,19 +9,20 @@ among other libraries that work in perfect synergy with CE3. A command line appl
 has been developed to support the exercise. You can find more details in the 
 following sections.
 
-## Table of content
-- Terminology
-- Solution
-  - Package structure
-  - Libraries
-  - Parallelization
-- Architecture Decision Records
-- Testing
-- Building
-- Running Stuart GeoHash CLI
-- Supporting IntelliJ IDEA
-- Known issue
-- How to contribute
+## Table of contents
+- [Terminology](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#terminology)
+- [Solution](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#solution)
+  - [Package structure]((https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#package-structure))
+  - [Libraries](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#libraries)
+  - [Parallelization](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#parallelization)
+- [Architecture Decision Records](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#architecture-decision-records)
+- [Testing](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#testing)
+- [Building](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#building)
+- [Running Stuart GeoHash CLI](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#running-stuart-geohash-cli)
+- [Supporting IntelliJ IDEA](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#running-stuart-geohash-cli)
+- [Known issue](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#known-issue)
+- [How to contribute](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#how-to-contribute)
+
 
 ### Terminology
 - `F[_]` is a functional programming feature called type constructor used in higher kinded type definition.
@@ -139,8 +140,10 @@ In other case the application won't execute.
 #### Instructions
 1. Open edit Run/Debug configuration dialog
    ![config_runner](images/config_runner.png)
+   
 2. Click in the red rectangle in order to configure the environment variables 
    ![config_env_options](images/configurations.png)
+   
 3. Add the environment variables required
    ![config_env_options](images/env_var.png)
    
