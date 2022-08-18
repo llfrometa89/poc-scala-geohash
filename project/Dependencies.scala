@@ -16,6 +16,7 @@ object Dependencies {
     val testContainers     = "1.17.2"
     val geohash            = "1.4.0"
     val scalaTestCheck     = "3.2.2.0"
+    val commonsCli         = "1.5.0"
   }
 
   object Libraries {
@@ -39,6 +40,8 @@ object Dependencies {
 
     val newtype = "io.estatico" %% "newtype" % V.newtype
     val geohash = "ch.hsr"       % "geohash" % V.geohash
+
+    lazy val commonsCli = "commons-cli" % "commons-cli" % V.commonsCli
 
     // Runtime
     val logback = "ch.qos.logback" % "logback-classic" % V.logback

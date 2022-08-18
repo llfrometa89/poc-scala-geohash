@@ -42,7 +42,8 @@ lazy val dependencies = Seq(
   Libraries.doobieH2,
   Libraries.doobieScalatest,
   Libraries.mysqlConnectorJava,
-  Libraries.geohash
+  Libraries.geohash,
+  Libraries.commonsCli
 )
 
 lazy val testDependencies = Seq(

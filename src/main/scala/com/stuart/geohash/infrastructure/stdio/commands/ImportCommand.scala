@@ -1,0 +1,54 @@
+package com.stuart.geohash.infrastructure.stdio.commands
+
+import cats.effect.{Resource, Sync}
+import cats.implicits._
+import com.stuart.geohash.application.services.ImportGeoHash
+import com.stuart.geohash.infrastructure.stdio.{
+  CommandLineRunner,
+  CommandLineRunnerHelper,
+  CommandOptions,
+  CommandOptionsKeyword
+}
+import org.apache.commons.cli.CommandLine
+
+import java.io.{BufferedReader, File, FileReader}
+
+trait ImportCommand[F[_]] extends CommandLineRunner[F] {
+
+  def run(args: Array[String]): F[Unit]
+}
+
+object ImportCommand {
+
+  def make[F[_]: Sync](commandOptions: CommandOptions[F], importGeoHash: ImportGeoHash[F]): ImportCommand[F] =
+    new ImportCommand[F] {
+
+      final val DefaultBatch = 100L
+
+      def run(args: Array[String]): F[Unit] = for {
+        parser  <- CommandLineRunnerHelper.parser[F]()
+        options <- commandOptions.getOptions
+        cmd     <- Sync[F].delay(parser.parse(options, args))
+        hasFile <- Sync[F].delay(cmd.hasOption(CommandOptionsKeyword.file))
+        _       <- Sync[F].whenA(hasFile)(mkImport(cmd))
+      } yield ()
+
+      private def openFile(filename: String): F[BufferedReader] = for {
+        file       <- Sync[F].delay(new File(filename))
+        fileReader <- Sync[F].delay(new FileReader(file))
+        buffer     <- Sync[F].delay(new BufferedReader(fileReader))
+      } yield buffer
+
+      private def closeFile(file: BufferedReader): F[Unit] = Sync[F].delay(file.close())
+
+      private def mkFileResource(filename: String): Resource[F, BufferedReader] =
+        Resource.make(openFile(filename))(file => closeFile(file))
+
+      private def mkImport(cmd: CommandLine): F[Unit] = for {
+        filename <- Sync[F].delay(cmd.getOptionValue(CommandOptionsKeyword.file))
+        mBatch   <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.batch)).map(_.toLong))
+        batch    <- Sync[F].pure(mBatch.getOrElse(DefaultBatch))
+        _        <- importGeoHash.importGeoHash(mkFileResource(filename), batch)
+      } yield ()
+    }
+}
