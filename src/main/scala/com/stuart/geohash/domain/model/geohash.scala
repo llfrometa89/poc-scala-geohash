@@ -11,5 +11,5 @@ object geohash {
 
   case class GeoPoint(latitude: Latitude, longitude: Longitude)
 
-  case class GeoHash(point: GeoPoint, geohash: GeoHashMaxPrecision, uniquePrefix: UniquePrefix)
+  case class GeoHash(geoPoint: GeoPoint, geoHash: GeoHashMaxPrecision, uniquePrefix: UniquePrefix)
 }

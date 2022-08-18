@@ -43,7 +43,11 @@ lazy val dependencies = Seq(
   Libraries.doobieScalatest,
   Libraries.mysqlConnectorJava,
   Libraries.geohash,
-  Libraries.commonsCli
+  Libraries.commonsCli,
+  Libraries.circeCore,
+  Libraries.circeGeneric,
+  Libraries.circeParser,
+  Libraries.circeRefined
 )
 
 lazy val testDependencies = Seq(

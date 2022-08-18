@@ -17,15 +17,22 @@ object Dependencies {
     val geohash            = "1.4.0"
     val scalaTestCheck     = "3.2.2.0"
     val commonsCli         = "1.5.0"
+    val circe              = "0.14.2"
   }
 
   object Libraries {
 
     def doobie(artifact: String): ModuleID = "org.tpolecat" %% s"doobie-$artifact" % V.doobie
+    def circe(artifact: String): ModuleID  = "io.circe"     %% s"circe-$artifact"  % V.circe
 
     val cats       = "org.typelevel" %% "cats-core"      % V.cats
     val catsEffect = "org.typelevel" %% "cats-effect"    % V.catsEffect
     val log4cats   = "org.typelevel" %% "log4cats-slf4j" % V.log4cats
+
+    val circeCore    = circe("core")
+    val circeGeneric = circe("generic")
+    val circeParser  = circe("parser")
+    val circeRefined = circe("refined")
 
     val doobieCore      = doobie("core")
     val doobieHikari    = doobie("hikari")

@@ -1,14 +1,12 @@
 package com.stuart.geohash.infrastructure.stdio.commands
 
+import cats.effect.std.Console
 import cats.effect.{Resource, Sync}
 import cats.implicits._
 import com.stuart.geohash.application.services.ImportGeoHash
-import com.stuart.geohash.infrastructure.stdio.{
-  CommandLineRunner,
-  CommandLineRunnerHelper,
-  CommandOptions,
-  CommandOptionsKeyword
-}
+import com.stuart.geohash.infrastructure.stdio.helpers.CommandLineRunnerHelper
+import com.stuart.geohash.infrastructure.stdio.output.ImportCommand.ImportCommandFormatConsoleOutput
+import com.stuart.geohash.infrastructure.stdio.{CommandLineRunner, CommandOptions, CommandOptionsKeyword}
 import org.apache.commons.cli.CommandLine
 
 import java.io.{BufferedReader, File, FileReader}
@@ -20,7 +18,11 @@ trait ImportCommand[F[_]] extends CommandLineRunner[F] {
 
 object ImportCommand {
 
-  def make[F[_]: Sync](commandOptions: CommandOptions[F], importGeoHash: ImportGeoHash[F]): ImportCommand[F] =
+  def make[F[_]: Sync: Console](
+    commandOptions: CommandOptions[F],
+    importGeoHash: ImportGeoHash[F],
+    consoleOutput: ImportCommandFormatConsoleOutput[F]
+  ): ImportCommand[F] =
     new ImportCommand[F] {
 
       final val DefaultBatch     = 100L
@@ -48,10 +50,12 @@ object ImportCommand {
       private def mkImport(cmd: CommandLine): F[Unit] = for {
         filename   <- Sync[F].delay(cmd.getOptionValue(CommandOptionsKeyword.file))
         mBatch     <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.batch)).map(_.toLong))
-        mPrecision <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.batch)).map(_.toInt))
+        mPrecision <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.precision)).map(_.toInt))
+        mFormat    <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.format)))
         batch      <- Sync[F].pure(mBatch.getOrElse(DefaultBatch))
         precision  <- Sync[F].pure(mPrecision.getOrElse(DefaultPrecision))
-        _          <- importGeoHash.importGeoHash(mkFileResource(filename), batch, precision)
+        geoHashes  <- importGeoHash.importGeoHash(mkFileResource(filename), batch, precision)
+        _          <- consoleOutput.getConsoleOutputByFormat(mFormat).printGeoHashes(geoHashes)
       } yield ()
     }
 }
