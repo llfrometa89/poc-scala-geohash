@@ -141,14 +141,14 @@ In other case the application won't execute.
 - Open edit Run/Debug configuration dialog
 <img style="float: left;" src="images/config_runner.png">
 
-- Click in the red rectangle in order to configure the environment variables 
-![config_env_options](images/configurations.png)
+- Click in the red rectangle in order to configure the environment variables
+<img style="float: left;" src="images/configurations.png">
 
 - Add the environment variables required
-![config_env_options](images/env_var.png)
+<img style="float: left;" src="images/env_var.png">
 
 ### Known issue
-![geohashcli](images/known_issue.png)
+<img style="float: left;" src="images/known_issue.png">
 The red messages when the application start belongs to a unknown issue of the `liquibase` library.
 I tried to control the log level in the `logback.yml` file but the message continue. In further
 version should be fixed.
