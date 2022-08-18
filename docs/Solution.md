@@ -66,17 +66,17 @@ The package structure follows the market standard based on Domain Driven Develop
 I have been using many libraries for the development of the solution, among the ones 
 that I would most like to comment on due to the value they bring to the solution are 
 the following:
-- `Cats`: Provide abstractions for functional programming in Scala. [docs](https://typelevel.org/cats/)
-- `Cats-Effect`: The IO Monad for Scala, plus type classes for general effect types.  [docs](https://typelevel.org/cats-effect/docs/getting-started)
-- `scalafmt`: Scalafmt keep the same code style among all contributors. [docs](https://scalameta.org/scalafmt/docs/installation.html)
-- `scalatest`: ScalaTest is the most flexible and most popular testing tool in 
+- `Cats` - Provide abstractions for functional programming in Scala. [docs](https://typelevel.org/cats/)
+- `Cats-Effect` - The IO Monad for Scala, plus type classes for general effect types.  [docs](https://typelevel.org/cats-effect/docs/getting-started)
+- `scalafmt` - Scalafmt keep the same code style among all contributors. [docs](https://scalameta.org/scalafmt/docs/installation.html)
+- `scalatest` - ScalaTest is the most flexible and most popular testing tool in 
   the Scala ecosystem.  [docs](https://www.scalatest.org/)
-- `testcontainer`: TestContainer allows Dockerize your integration tests and make it as close
+- `testcontainer` - TestContainer allows Dockerize your integration tests and make it as close
   to production in terms of infrastructure versions used. [docs](https://www.testcontainers.org/)
-- `liquibase`: Track, version, and deploy database changes. [docs](https://www.liquibase.org/)
-- `refined`: it's a Scala library for refining types with type-level predicates which constrain the 
+- `liquibase` - Track, version, and deploy database changes. [docs](https://www.liquibase.org/)
+- `refined` - it's a Scala library for refining types with type-level predicates which constrain the 
   set of values described by the refined type. [docs](https://github.com/fthomas/refined)
-- `doobie`: it's a pure functional JDBC layer for Scala and Cats. nor is it a relational algebra; it simply 
+- `doobie` - it's a pure functional JDBC layer for Scala and Cats. nor is it a relational algebra; it simply 
   provides a functional way to construct programs (and higher-level libraries) that use JDBC. [docs](https://tpolecat.github.io/doobie/)
 
 #### Parallelization
@@ -139,13 +139,13 @@ In other case the application won't execute.
 
 #### Instructions
 - Open edit Run/Debug configuration dialog
-  ![config_runner](images/config_runner.png)
+![config_runner](images/config_runner.png)
    
 - Click in the red rectangle in order to configure the environment variables 
-   ![config_env_options](images/configurations.png)
+![config_env_options](images/configurations.png)
    
 - Add the environment variables required
-   ![config_env_options](images/env_var.png)
+![config_env_options](images/env_var.png)
    
 ### Known issue
 ![geohashcli](images/known_issue.png)
