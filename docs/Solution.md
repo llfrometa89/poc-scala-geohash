@@ -129,7 +129,7 @@ geohashcli import --file=test_points.txt --precision=5 --batch=500 --format=csv
 geohashcli help
 ```
 #### How do it look like?
-![geohashcli](images/geohashcli.png)
+<img style="float: left;" src="images/geohashcli.png">
 
 ### Supporting IntelliJ IDEA
 The requeded `env` variables should be found in `.env` file. For didactic purposes, 

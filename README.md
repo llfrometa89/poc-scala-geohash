@@ -49,4 +49,4 @@ Here is a brief preview of what you will find on the [Solution](docs/Solution.md
 
 ### :clapper: Spoiler alert!
 Here is a first look at what the developed command line application looks like.
-![geohashcli](docs/images/geohashcli.png)
+<img style="float: left;" src="images/geohashcli.png">
