@@ -3,6 +3,7 @@ package com.stuart.geohash.infrastructure.stdio.commands
 import cats.effect.std.Console
 import cats.effect.{Resource, Sync}
 import cats.implicits._
+import com.stuart.geohash.application.dto.geohash.GeoHashDTO
 import com.stuart.geohash.application.services.ImportGeoHash
 import com.stuart.geohash.infrastructure.stdio.helpers.CommandLineRunnerHelper
 import com.stuart.geohash.infrastructure.stdio.output.ImportCommand.ImportCommandFormatConsoleOutput
@@ -48,13 +49,14 @@ object ImportCommand {
         Resource.make(openFile(filename))(file => closeFile(file))
 
       private def mkImport(cmd: CommandLine): F[Unit] = for {
-        filename   <- Sync[F].delay(cmd.getOptionValue(CommandOptionsKeyword.file))
-        mBatch     <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.batch)).map(_.toLong))
-        mPrecision <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.precision)).map(_.toInt))
-        mFormat    <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.format)))
-        batch      <- Sync[F].pure(mBatch.getOrElse(DefaultBatch))
-        precision  <- Sync[F].pure(mPrecision.getOrElse(DefaultPrecision))
-        geoHashes <- importGeoHash.importGeoHash(
+        filename      <- Sync[F].delay(cmd.getOptionValue(CommandOptionsKeyword.file))
+        mBatch        <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.batch)).map(_.toLong))
+        mPrecision    <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.precision)).map(_.toInt))
+        mFormat       <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.format)))
+        batch         <- Sync[F].pure(mBatch.getOrElse(DefaultBatch))
+        precision     <- Sync[F].pure(mPrecision.getOrElse(DefaultPrecision))
+        onBatchFinish <- Sync[F].pure(onBatchFinish(mFormat) _)
+        _ <- importGeoHash.importGeoHash(
           mkFileResource(filename),
           batch,
           precision,
@@ -62,14 +64,14 @@ object ImportCommand {
           onStart,
           onFinish
         )
-        _ <- consoleOutput.getConsoleOutputByFormat(mFormat).printGeoHashes(geoHashes)
       } yield ()
 
       private def onStart: F[Unit] = Console[F].println("onStart: Starting process")
 
       private def onFinish: F[Unit] = Console[F].println("onFinish: imported process have been finish")
 
-      private def onBatchFinish: F[Unit] = Sync[F].unit
+      private def onBatchFinish(format: Option[String])(geoHashes: List[GeoHashDTO]): F[Unit] =
+        consoleOutput.getConsoleOutputByFormat(format).printGeoHashes(geoHashes)
 
     }
 }

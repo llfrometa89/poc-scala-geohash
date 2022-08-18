@@ -20,6 +20,7 @@ object Dependencies {
     val commonsCli         = "1.5.0"
     val circe              = "0.14.2"
     val ciris              = "2.3.2"
+    val liquibase          = "4.15.0"
   }
 
   object Libraries {
@@ -55,7 +56,8 @@ object Dependencies {
     val newtype = "io.estatico" %% "newtype" % V.newtype
     val geohash = "ch.hsr"       % "geohash" % V.geohash
 
-    lazy val commonsCli = "commons-cli" % "commons-cli" % V.commonsCli
+    lazy val commonsCli = "commons-cli"   % "commons-cli"    % V.commonsCli
+    val liquibaseCore   = "org.liquibase" % "liquibase-core" % V.liquibase
 
     // Runtime
     val logback = "ch.qos.logback" % "logback-classic" % V.logback

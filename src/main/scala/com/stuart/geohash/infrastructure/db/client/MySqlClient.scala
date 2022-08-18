@@ -1,28 +1,34 @@
 package com.stuart.geohash.infrastructure.db.client
 
-import cats.effect.{Async, Resource}
+import cats.effect.Async
+import cats.implicits._
 import com.stuart.geohash.infrastructure.configuration.MysqlConfig
 import com.zaxxer.hikari.{HikariConfig, HikariDataSource}
-import doobie.ExecutionContexts
 import doobie.hikari.HikariTransactor
 
 trait MySqlClient[F[_]] {
-  def transactor: Resource[F, HikariTransactor[F]]
+  def getDataSource: HikariDataSource
+  def transactor: F[HikariTransactor[F]]
 }
 
 object MySqlClient {
 
   def make[F[_]: Async](mysqlConfig: MysqlConfig): MySqlClient[F] = new MySqlClient[F] {
 
-    val hikariConfig = new HikariConfig()
-    hikariConfig.setJdbcUrl(mysqlConfig.JdbcUrl.value)
-    hikariConfig.setUsername(mysqlConfig.user.value)
-    hikariConfig.setPassword(mysqlConfig.password.value.value)
-    hikariConfig.setMaximumPoolSize(mysqlConfig.maximumPoolSize.value)
+    val config = new HikariConfig()
+    config.setJdbcUrl(mysqlConfig.JdbcUrl.value)
+    config.setUsername(mysqlConfig.user.value)
+    config.setPassword(mysqlConfig.password.value.value)
+    config.setMaximumPoolSize(mysqlConfig.maximumPoolSize.value)
 
-    def transactor: Resource[F, HikariTransactor[F]] = for {
-      ec         <- ExecutionContexts.fixedThreadPool(5)
-      transactor <- HikariTransactor.fromHikariConfig[F](new HikariDataSource(hikariConfig), ec)
+    lazy val dataSource: HikariDataSource = new HikariDataSource(config)
+
+    def getDataSource: HikariDataSource = dataSource
+
+    def transactor: F[HikariTransactor[F]] = for {
+      ec         <- Async[F].executionContext
+      transactor <- Async[F].pure(HikariTransactor.apply[F](dataSource, ec))
     } yield transactor
+
   }
 }

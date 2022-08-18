@@ -14,20 +14,21 @@ object GeoHashMySqlRepository {
   def make[F[_]: Async](mySqlClient: MySqlClient[F]): GeoHashRepository[F] = new GeoHashRepository[F] {
 
     def create(geoHash: GeoHash): F[GeoHash] = for {
-      _ <- mySqlClient.transactor.use(transactor => mkExecute(GeoHashSQL.insert(geoHash), transactor))
+      ax <- mySqlClient.transactor
+      _  <- mkExecute(GeoHashSQL.insert(geoHash), ax)
     } yield geoHash
 
     def findBy(geoHashMaxPrecision: GeoHashMaxPrecision): F[Option[GeoHash]] =
       for {
-        mEntity <- mySqlClient.transactor.use(transactor =>
-          mkExecute(GeoHashSQL.selectByGeoHash(geoHashMaxPrecision.value), transactor)
-        )
+        ax      <- mySqlClient.transactor
+        mEntity <- mkExecute(GeoHashSQL.selectByGeoHash(geoHashMaxPrecision.value), ax)
         geoHash <- mEntity.map(_.toGeoHash).pure[F]
       } yield geoHash
 
     def findAll(page: Long, size: Long): F[List[GeoHash]] =
       for {
-        entities  <- mySqlClient.transactor.use(transactor => mkExecute(GeoHashSQL.selectAll(page, size), transactor))
+        ax        <- mySqlClient.transactor
+        entities  <- mkExecute(GeoHashSQL.selectAll(page, size), ax)
         geoHashes <- entities.map(_.toGeoHash).pure[F]
       } yield geoHashes
 

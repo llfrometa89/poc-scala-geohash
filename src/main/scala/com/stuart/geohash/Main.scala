@@ -1,19 +1,25 @@
 package com.stuart.geohash
 
 import cats.effect.std.Console
-import cats.effect.{Async, IO, IOApp}
+import cats.effect.{Async, IO, IOApp, Sync}
 import cats.implicits._
+import com.stuart.geohash.cross.implicits._
+import com.stuart.geohash.infrastructure.configuration.Config
+import com.stuart.geohash.infrastructure.db.liquibase.LiquibaseFactory
 import com.stuart.geohash.infrastructure.ioc.provider.{AppResources, Commands, Repositories, Services}
 import com.stuart.geohash.infrastructure.stdio.banner.Banner
 import com.stuart.geohash.infrastructure.stdio.commands.CommandFactory
-import com.stuart.geohash.cross.implicits._
-import com.stuart.geohash.infrastructure.configuration.Config
 
 object Main extends IOApp.Simple {
 
   override def run: IO[Unit] = Config.load[IO].flatMap { config =>
     val resources = AppResources.make[IO](config)
-    program(resources)
+    initialize(resources) >> program(resources)
+  }
+
+  def initialize[F[_]: Sync](resources: AppResources[F]): F[Unit] = {
+    val liquibase = LiquibaseFactory.make[F](resources.mysql)
+    liquibase.update()
   }
 
   def program[F[_]: Async: Console](resources: AppResources[F]): F[Unit] =

@@ -16,7 +16,7 @@ trait ImportGeoHash[F[_]] {
     file: Resource[F, BufferedReader],
     batch: Long,
     precision: Int,
-    onBatchFinish: => F[Unit],
+    onBatchFinish: List[GeoHashDTO] => F[Unit],
     onStart: => F[Unit],
     onFinish: => F[Unit]
   ): F[List[GeoHashDTO]]
@@ -32,7 +32,7 @@ object ImportGeoHash {
       file: Resource[F, BufferedReader],
       batch: Long,
       precision: Int,
-      onBatchFinish: => F[Unit],
+      onBatchFinish: List[GeoHashDTO] => F[Unit],
       onStart: => F[Unit],
       onFinish: => F[Unit]
     ): F[List[GeoHashDTO]] = {
@@ -57,7 +57,7 @@ object ImportGeoHash {
         geoHashesMerged = list ::: geoHashesAsDto
         accumulator <-
           if (isBatchFinish(lines)) geoHashesMerged.pure[F]
-          else onBatchFinish >> processGeoPoints(buffer, geoHashesMerged)
+          else onBatchFinish(geoHashesAsDto) >> processGeoPoints(buffer, geoHashesMerged)
       } yield accumulator
 
       def mkSaveGeoHash(geoHash: GeoHash): F[Unit] = for {

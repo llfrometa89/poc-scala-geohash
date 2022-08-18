@@ -50,7 +50,8 @@ lazy val dependencies = Seq(
   Libraries.circeRefined,
   Libraries.cirisCore,
   Libraries.cirisEnum,
-  Libraries.cirisRefined
+  Libraries.cirisRefined,
+  Libraries.liquibaseCore
 )
 
 lazy val testDependencies = Seq(
