@@ -4,6 +4,7 @@ import cats.effect.{Resource, Sync}
 import cats.implicits._
 import com.stuart.geohash.application.dto.geohash._
 import com.stuart.geohash.cross.GenGeoHash
+import com.stuart.geohash.cross.implicits._
 import com.stuart.geohash.domain.model.geohash.{GeoHash, GeoHashMaxPrecision, GeoPoint, UniquePrefix}
 
 import java.io.BufferedReader
@@ -40,7 +41,7 @@ object ImportGeoHash {
 
     def toImportGeoPoint(line: String): F[ImportGeoPointDTO] =
       for {
-        geoPointAsArray <- Sync[F].delay(line.split(","))
+        geoPointAsArray <- Sync[F].delay(line.toArrayByComma)
         geoPoint        <- GeoPointRefined.fromArray(geoPointAsArray)
       } yield geoPoint
 

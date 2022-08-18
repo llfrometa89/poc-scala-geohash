@@ -7,6 +7,7 @@ import com.stuart.geohash.cross.GenGeoHash
 import com.stuart.geohash.domain.model.geohash.GeoPoint
 import com.stuart.geohash.fixtures.ErrorFixture
 import com.stuart.geohash.generators.geohash._
+import com.stuart.geohash.cross.implicits._
 
 class GenGeoHashSpec extends UnitSpec with ErrorFixture {
 
@@ -38,5 +39,5 @@ class GenGeoHashSpec extends UnitSpec with ErrorFixture {
 }
 
 protected class TestGenGeoHash extends GenGeoHash[IO] {
-  def make(point: GeoPoint, precision: Int): IO[String] = IO.pure("")
+  def make(point: GeoPoint, precision: Int): IO[String] = IO.pure(String.empty)
 }

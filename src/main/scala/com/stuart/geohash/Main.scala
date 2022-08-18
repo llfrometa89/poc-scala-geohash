@@ -6,6 +6,7 @@ import cats.implicits._
 import com.stuart.geohash.infrastructure.ioc.provider.{Commands, Services}
 import com.stuart.geohash.infrastructure.stdio.banner.Banner
 import com.stuart.geohash.infrastructure.stdio.commands.CommandFactory
+import com.stuart.geohash.cross.implicits._
 
 object Main extends IOApp.Simple {
 
@@ -19,10 +20,9 @@ object Main extends IOApp.Simple {
       services   = Services.make[F]()
       commands   = Commands.make(services.importGeoHash)
       factory    = CommandFactory.make(commands)
-      argAsArray = toArgsArray(args)
+      argAsArray = args.toArrayBySpace
       command <- factory.getCommand(argAsArray)
       _       <- command.run(argAsArray).handleErrorWith(error => Console[F].errorln(error.getMessage))
     } yield ()
 
-  private def toArgsArray(args: String): Array[String] = args.split(" ")
 }
