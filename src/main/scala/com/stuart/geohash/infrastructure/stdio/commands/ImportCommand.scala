@@ -54,8 +54,22 @@ object ImportCommand {
         mFormat    <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.format)))
         batch      <- Sync[F].pure(mBatch.getOrElse(DefaultBatch))
         precision  <- Sync[F].pure(mPrecision.getOrElse(DefaultPrecision))
-        geoHashes  <- importGeoHash.importGeoHash(mkFileResource(filename), batch, precision)
-        _          <- consoleOutput.getConsoleOutputByFormat(mFormat).printGeoHashes(geoHashes)
+        geoHashes <- importGeoHash.importGeoHash(
+          mkFileResource(filename),
+          batch,
+          precision,
+          onBatchFinish,
+          onStart,
+          onFinish
+        )
+        _ <- consoleOutput.getConsoleOutputByFormat(mFormat).printGeoHashes(geoHashes)
       } yield ()
+
+      private def onStart: F[Unit] = Console[F].println("onStart: Starting process")
+
+      private def onFinish: F[Unit] = Console[F].println("onFinish: imported process have been finish")
+
+      private def onBatchFinish: F[Unit] = Sync[F].unit
+
     }
 }
