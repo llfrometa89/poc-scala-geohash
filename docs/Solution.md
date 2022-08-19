@@ -42,6 +42,11 @@ of the solution that I wanted to introduce. I have separated the solution in the
 following layers such as `Domain`, `Application` and `Infrastructure`,
 which I will explain in the **Package structure** section.
 
+#### Component overview
+- Edit diagram: https://excalidraw.com/#json=fq1H7hGc6nPAZNx-zYdiI,Rib4jbOICSGxQYJnhCQYoA
+
+<img style="float: left;" src="images/component_overview.png">
+
 #### Package Structure
 The package structure follows the market standard based on Domain Driven Development.
 ```
