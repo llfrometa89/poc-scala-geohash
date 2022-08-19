@@ -6,4 +6,9 @@ trait CommandFixture {
 
   lazy val args: Array[String] =
     "geohashcli import --file=test_points.txt --precision=5 --batch=500 --format=csv".toArrayBySpace
+
+  lazy val argsWithImportCommand: Array[String] =
+    "geohashcli import --file=test_points.txt --precision=5 --batch=500 --format=csv".toArrayBySpace
+
+  lazy val argsWithHelpCommand: Array[String] = "geohashcli --help".toArrayBySpace
 }

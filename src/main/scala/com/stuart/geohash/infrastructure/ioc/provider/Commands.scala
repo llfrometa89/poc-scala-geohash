@@ -4,12 +4,13 @@ import cats.effect.Sync
 import cats.effect.std.Console
 import com.stuart.geohash.application.services.ImportGeoHash
 import com.stuart.geohash.infrastructure.stdio.CommandOptions
-import com.stuart.geohash.infrastructure.stdio.commands.ImportCommand
+import com.stuart.geohash.infrastructure.stdio.commands.{HelpCommand, ImportCommand}
 import com.stuart.geohash.infrastructure.stdio.helpers.CommandLineRunnerHelper
 import com.stuart.geohash.infrastructure.stdio.output.ImportCommand.ImportCommandFormatConsoleOutput
 
 sealed abstract class Commands[F[_]] private (
   val importCommand: ImportCommand[F],
+  val helpCommand: HelpCommand[F],
   val runnerHelper: CommandLineRunnerHelper[F]
 )
 
@@ -26,6 +27,7 @@ object Commands {
           consoleOutput = ImportCommandFormatConsoleOutput.make[F],
           runnerHelper
         ),
+      helpCommand = HelpCommand.make[F](runnerHelper),
       runnerHelper = runnerHelper
     ) {}
   }

@@ -120,7 +120,7 @@ To run Integration Tests execute:
 #### Available command
 - Import geopoint to generate geohash
 ```sh
-geohashcli import --file=test_points.txt --precision=5 --batch=500 --format=csv
+$ geohashcli import --file=test_points.txt --precision=5 --batch=500 --format=csv
 ```
 - `file` filename of the file in `csv` format
 - `precision` = ... `5` to `12` is the value to set in the geohash generation process. 
@@ -128,7 +128,14 @@ geohashcli import --file=test_points.txt --precision=5 --batch=500 --format=csv
 - `batch` batch size
 #### Help command
 ```sh
-geohashcli help
+$ geohashcli --help
+usage: geohashcli [command] [options] [target [target2 [target3] ...]]
+ -b,--batch <arg>       Allow to set batch value
+ -f,--file <arg>        Allow to set file address
+ -fmt,--format <arg>    Allow to set file format
+ -help,--help           Execute help command
+ -import,--import       Execute import command
+ -p,--precision <arg>   Allow to set geohash precision
 ```
 #### How do it look like?
 <img style="float: left;" src="images/geohashcli.png">

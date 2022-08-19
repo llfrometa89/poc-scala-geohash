@@ -17,20 +17,27 @@ object CommandOptions {
 
     def getOptions: F[Options] = for {
       options <- mkCreateCmdOptions
-      _ <- Sync[F].delay(options.addOption(Keyword.`import`, Keyword.`import`, false, "Allow to set file address"))
-      _ <- Sync[F].delay(options.addOption("f", Keyword.file, true, "Allow to set file address"))
-      _ <- Sync[F].delay(options.addOption("fmt", Keyword.format, true, "Allow to set file format"))
-      _ <- Sync[F].delay(options.addOption("b", Keyword.batch, true, "Allow to set batch value"))
-      _ <- Sync[F].delay(options.addOption("p", Keyword.precision, true, "Allow to set geohash precision"))
+      _       <- Sync[F].delay(options.addOption(Keyword.`import`, Keyword.`import`, false, "Execute import command"))
+      _       <- Sync[F].delay(options.addOption(Keyword.`help`, Keyword.`help`, false, "Execute help command"))
+      _       <- Sync[F].delay(options.addOption("f", Keyword.file, true, "Allow to set file address"))
+      _       <- Sync[F].delay(options.addOption("fmt", Keyword.format, true, "Allow to set file format"))
+      _       <- Sync[F].delay(options.addOption("b", Keyword.batch, true, "Allow to set batch value"))
+      _       <- Sync[F].delay(options.addOption("p", Keyword.precision, true, "Allow to set geohash precision"))
     } yield options
   }
 
 }
 
 object CommandOptionsKeyword {
-  val `import`  = "import"
-  val file      = "file"
-  val format    = "format"
-  val batch     = "batch"
-  val precision = "precision"
+
+  type Command = String
+  type Options = String
+
+  val `import`: Command  = "import"
+  val help: Command      = "help"
+  val helpAlias: Command = "--help"
+  val file: Options      = "file"
+  val format: Options    = "format"
+  val batch: Options     = "batch"
+  val precision: Options = "precision"
 }
