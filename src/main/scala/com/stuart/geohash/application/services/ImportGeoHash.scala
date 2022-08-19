@@ -54,9 +54,10 @@ object ImportGeoHash {
 
       file.use { buffer =>
         for {
-          _     <- onStart
-          lines <- loader.load(buffer, batchSize, LazyList.empty[String])
-          batches = lines.distinct.grouped(batchSize).toList
+          _          <- onStart
+          totalLines <- loader.load(buffer, batchSize, LazyList.empty[String])
+          distinctLines = totalLines.distinct
+          batches       = distinctLines.grouped(batchSize).toList
           _ <- processGeoPoints(batches)
           _ <- onFinish
         } yield ()

@@ -9,6 +9,7 @@
         <appender-ref ref="STDOUT" />
     </root>
 
+    <logger name="com.zaxxer.hikari" level="ERROR"/>
     <logger name="liquibase" level="ERROR"/>
     <logger name="liquibase.logging" level="ERROR"/>
 

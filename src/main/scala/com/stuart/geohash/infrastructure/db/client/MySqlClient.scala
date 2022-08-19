@@ -1,9 +1,10 @@
 package com.stuart.geohash.infrastructure.db.client
 
-import cats.effect.Async
+import cats.effect.{Async, Resource}
 import cats.implicits._
 import com.stuart.geohash.infrastructure.configuration.MysqlConfig
 import com.zaxxer.hikari.{HikariConfig, HikariDataSource}
+import doobie.ExecutionContexts
 import doobie.hikari.HikariTransactor
 import doobie.util.transactor.Transactor
 
@@ -12,6 +13,7 @@ import javax.sql.DataSource
 trait MySqlClient[F[_]] {
   def getDataSource: DataSource
   def transactor: F[Transactor[F]]
+  def transactorR: Resource[F, HikariTransactor[F]]
 }
 
 object MySqlClient {
@@ -33,5 +35,9 @@ object MySqlClient {
       transactor <- Async[F].pure(HikariTransactor.apply[F](dataSource, ec))
     } yield transactor
 
+    def transactorR: Resource[F, HikariTransactor[F]] = for {
+      ec         <- ExecutionContexts.fixedThreadPool[F](5)
+      transactor <- HikariTransactor.fromHikariConfig[F](dataSource, ec)
+    } yield transactor
   }
 }

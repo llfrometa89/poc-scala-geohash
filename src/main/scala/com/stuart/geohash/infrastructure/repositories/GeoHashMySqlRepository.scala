@@ -15,10 +15,11 @@ object GeoHashMySqlRepository {
   def make[F[_]: Async](mySqlClient: MySqlClient[F], geoHashSQL: GeoHashSQL): GeoHashRepository[F] =
     new GeoHashRepository[F] {
 
-      def create(geoHash: GeoHash): F[GeoHash] = for {
-        ax <- mySqlClient.transactor
-        _  <- mkExecute(geoHashSQL.insert(geoHash), ax)
-      } yield geoHash
+      def create(geoHash: GeoHash): F[GeoHash] =
+        for {
+          ax <- mySqlClient.transactor
+          _  <- mkExecute(geoHashSQL.insert(geoHash), ax)
+        } yield geoHash
 
       def findBy(geoHashMaxPrecision: GeoHashMaxPrecision): F[Option[GeoHash]] =
         for {
@@ -63,7 +64,7 @@ object GeoHashSQL {
          INSERT
             INTO geohash (latitude, longitude, geohash, unique_prefix )
             VALUES (${geoHash.geoPoint.latitude.value}, 
-                    ${geoHash.geoPoint.latitude.value}, 
+                    ${geoHash.geoPoint.longitude.value}, 
                     ${geoHash.geoHash.value}, 
                     ${geoHash.uniquePrefix.value})
        """.update.run

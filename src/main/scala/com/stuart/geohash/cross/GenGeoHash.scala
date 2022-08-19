@@ -16,7 +16,7 @@ object GenGeoHash {
   implicit def instanceForSync[F[_]: Sync]: GenGeoHash[F] = new GenGeoHash[F] {
 
     def make(point: GeoPoint, precision: Int): F[String] = for {
-      lat     <- point.longitude.value.pure[F]
+      lat     <- point.latitude.value.pure[F]
       lon     <- point.longitude.value.pure[F]
       pre     <- precision.pure[F]
       geohash <- Sync[F].delay(GeoHash.geoHashStringWithCharacterPrecision(lat, lon, pre))
