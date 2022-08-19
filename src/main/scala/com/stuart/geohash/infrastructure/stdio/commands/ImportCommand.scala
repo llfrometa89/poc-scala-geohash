@@ -27,7 +27,7 @@ object ImportCommand {
   ): ImportCommand[F] =
     new ImportCommand[F] {
 
-      final val DefaultBatch     = 100L
+      final val DefaultBatch     = 100
       final val DefaultPrecision = 5
 
       def run(args: Array[String]): F[Unit] = for {
@@ -51,7 +51,7 @@ object ImportCommand {
 
       private def mkImport(cmd: CommandLine): F[Unit] = for {
         filename      <- Sync[F].delay(cmd.getOptionValue(CommandOptionsKeyword.file))
-        mBatch        <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.batch)).map(_.toLong))
+        mBatch        <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.batch)).map(_.toInt))
         mPrecision    <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.precision)).map(_.toInt))
         mFormat       <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.format)))
         batch         <- Sync[F].pure(mBatch.getOrElse(DefaultBatch))

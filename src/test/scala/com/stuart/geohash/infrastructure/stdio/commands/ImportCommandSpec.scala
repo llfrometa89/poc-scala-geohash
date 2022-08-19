@@ -37,7 +37,7 @@ class ImportCommandSpec extends UnitSpec with GeoHashFixture with CommandFixture
     when(
       importGeoHash.importGeoHash(
         any[Resource[IO, BufferedReader]],
-        any[Long],
+        any[Int],
         any[Int],
         any[List[GeoHashDTO] => IO[Unit]],
         any[IO[Unit]],
@@ -58,7 +58,7 @@ class ImportCommandSpec extends UnitSpec with GeoHashFixture with CommandFixture
     verify(fakeCommandLine).getOptionValue(CommandOptionsKeyword.format)
     verify(importGeoHash).importGeoHash(
       any[Resource[IO, BufferedReader]],
-      any[Long],
+      any[Int],
       any[Int],
       any[List[GeoHashDTO] => IO[Unit]],
       any[IO[Unit]],

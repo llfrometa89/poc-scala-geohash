@@ -7,6 +7,7 @@ import com.stuart.geohash.application.dto.geohash.GeoPointConversionError
 import com.stuart.geohash.cross.GenGeoHash
 import com.stuart.geohash.domain.models.geohash._
 import com.stuart.geohash.domain.repositories.GeoHashRepository
+import com.stuart.geohash.domain.services.GeoPointLoader
 import com.stuart.geohash.fixtures.GeoHashFixture
 
 import java.io.BufferedReader
@@ -17,9 +18,10 @@ class ImportGeoHashSpec extends UnitSpec with GeoHashFixture {
 
     implicit val genGeoHash: GenGeoHash[IO] = mock[GenGeoHash[IO]]
     val geoHashRepository                   = mock[GeoHashRepository[IO]]
-    val batch: Long                         = 2
+    val loader: GeoPointLoader[IO]          = mock[GeoPointLoader[IO]]
+    val batch: Int                          = 2
     val precision: Int                      = 5
-    val stub: ImportGeoHash[IO]             = ImportGeoHash.make(geoHashRepository)
+    val stub: ImportGeoHash[IO]             = ImportGeoHash.make(geoHashRepository, loader)
     val bufferedReader: BufferedReader      = mock[BufferedReader]
     val bufferResource                      = mkBufferResource(bufferedReader)
 
@@ -48,9 +50,10 @@ class ImportGeoHashSpec extends UnitSpec with GeoHashFixture {
   it should "store not save the GeoHash when it is store" in {
     implicit val genGeoHash: GenGeoHash[IO] = mock[GenGeoHash[IO]]
     val geoHashRepository                   = mock[GeoHashRepository[IO]]
-    val batch: Long                         = 2
+    val loader: GeoPointLoader[IO]          = mock[GeoPointLoader[IO]]
+    val batch: Int                          = 2
     val precision: Int                      = 5
-    val stub: ImportGeoHash[IO]             = ImportGeoHash.make(geoHashRepository)
+    val stub: ImportGeoHash[IO]             = ImportGeoHash.make(geoHashRepository, loader)
     val bufferedReader: BufferedReader      = mock[BufferedReader]
     val bufferResource                      = mkBufferResource(bufferedReader)
 
@@ -80,9 +83,10 @@ class ImportGeoHashSpec extends UnitSpec with GeoHashFixture {
 
     implicit val genGeoHash: GenGeoHash[IO] = mock[GenGeoHash[IO]]
     val geoHashRepository                   = mock[GeoHashRepository[IO]]
-    val batch: Long                         = 2
+    val loader: GeoPointLoader[IO]          = mock[GeoPointLoader[IO]]
+    val batch: Int                          = 2
     val precision: Int                      = 5
-    val stub: ImportGeoHash[IO]             = ImportGeoHash.make(geoHashRepository)
+    val stub: ImportGeoHash[IO]             = ImportGeoHash.make(geoHashRepository, loader)
     val bufferedReader: BufferedReader      = mock[BufferedReader]
     val bufferResource                      = mkBufferResource(bufferedReader)
 
@@ -97,9 +101,10 @@ class ImportGeoHashSpec extends UnitSpec with GeoHashFixture {
 
     implicit val genGeoHash: GenGeoHash[IO] = mock[GenGeoHash[IO]]
     val geoHashRepository                   = mock[GeoHashRepository[IO]]
-    val batch: Long                         = 2
+    val loader: GeoPointLoader[IO]          = mock[GeoPointLoader[IO]]
+    val batch: Int                          = 2
     val precision: Int                      = 5
-    val stub: ImportGeoHash[IO]             = ImportGeoHash.make(geoHashRepository)
+    val stub: ImportGeoHash[IO]             = ImportGeoHash.make(geoHashRepository, loader)
     val bufferedReader: BufferedReader      = mock[BufferedReader]
     val bufferResource                      = mkBufferResource(bufferedReader)
 

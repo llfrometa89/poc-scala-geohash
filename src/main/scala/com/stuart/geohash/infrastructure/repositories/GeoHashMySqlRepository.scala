@@ -27,7 +27,7 @@ object GeoHashMySqlRepository {
           geoHash <- mEntity.map(_.toGeoHash).pure[F]
         } yield geoHash
 
-      def findAll(page: Long, size: Long): F[List[GeoHash]] =
+      def findAll(page: Int, size: Int): F[List[GeoHash]] =
         for {
           ax        <- mySqlClient.transactor
           entities  <- mkExecute(geoHashSQL.selectAll(page, size), ax)
@@ -41,7 +41,7 @@ object GeoHashMySqlRepository {
 
 trait GeoHashSQL {
   def insert(geoHash: GeoHash): doobie.ConnectionIO[Int]
-  def selectAll(page: Long, size: Long): doobie.ConnectionIO[List[GeoHashEntity]]
+  def selectAll(page: Int, size: Int): doobie.ConnectionIO[List[GeoHashEntity]]
   def selectByGeoHash(geoHash: GeoHashMaxPrecision): doobie.ConnectionIO[Option[GeoHashEntity]]
 }
 
@@ -68,7 +68,7 @@ object GeoHashSQL {
                     ${geoHash.uniquePrefix.value})
        """.update.run
 
-    def selectAll(page: Long, size: Long): doobie.ConnectionIO[List[GeoHashEntity]] =
+    def selectAll(page: Int, size: Int): doobie.ConnectionIO[List[GeoHashEntity]] =
       sql"""
         SELECT * FROM geohash LIMIT ${page},${size}
        """

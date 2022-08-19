@@ -55,8 +55,8 @@ class GeoHashMySqlRepositorySpec extends UnitSpec with GeoHashFixture with Doobi
     val geoHashSQL                   = mock[GeoHashSQL]
     val repository                   = GeoHashMySqlRepository.make(mySqlClient, geoHashSQL)
 
-    val page: Long = 1L
-    val size: Long = 10L
+    val page: Int = 1
+    val size: Int = 10
 
     when(geoHashSQL.selectAll(page, size)).thenReturn(List(geoHashEntity1).pure[ConnectionIO])
     when(mySqlClient.transactor).thenReturn(IO(fakeTransactor))

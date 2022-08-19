@@ -2,6 +2,7 @@ package com.stuart.geohash.application.dto
 
 import cats.effect.Sync
 import cats.implicits._
+import com.stuart.geohash.cross.implicits._
 import com.stuart.geohash.domain.models.geohash.{GeoHash, GeoPoint, Latitude, Longitude}
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.Interval
@@ -19,6 +20,12 @@ object geohash {
 
     def fromDouble(value: Double): Either[GeoPointError, Refined[Double, GeoPointPred]] =
       refineV[GeoPointPred](value).leftMap(GeoPointConversionError)
+
+    def fromLine[F[_]: Sync](line: String): F[ImportGeoPointDTO] =
+      for {
+        geoPointAsArray <- Sync[F].delay(line.toArrayByComma)
+        geoPoint        <- GeoPointRefined.fromArray(geoPointAsArray)
+      } yield geoPoint
 
     def fromArray[F[_]: Sync](values: Array[String]): F[ImportGeoPointDTO] = for {
       _                 <- Sync[F].whenA(values.size < 2)(Sync[F].raiseError(InvalidArrayConversionError))
