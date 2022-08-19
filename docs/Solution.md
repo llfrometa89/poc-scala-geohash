@@ -115,14 +115,20 @@ in the following document.
 > Note that, thanks to test-containers, you don't need any infrastructure component to run integration test on
 > your local environment
 
-To run Unit Tests execute:
+#### To run Unit Tests execute:
 ```sh
 ./sbt test
 ```
-To run Integration Tests execute:
+#### To run Integration Tests execute:
 ```sh
 ./sbt it:test
 ```
+#### Test coverage
+```sh
+./sbt coverage test it:test coverageOff coverageReport
+```
+More information related to this topic, check the [official documentation](https://github.com/scoverage/sbt-scoverage)
+
 ### Building
 ```sh
 ./sbt stage
