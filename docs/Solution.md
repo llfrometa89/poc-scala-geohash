@@ -17,6 +17,7 @@ following sections.
   - [Libraries](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#libraries)
   - [Parallelization](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#parallelization)
 - [Architecture Decision Records](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#architecture-decision-records)
+- [Checking code format](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#checking-code-format)
 - [Testing](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#testing)
 - [Building](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#building)
 - [Running Stuart GeoHash CLI](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#running-stuart-geohash-cli)
@@ -111,7 +112,7 @@ in the following document.
 - [Choose mysql as main storage](adrs/2.choose-mysql-as-main-database.md)
 - [Introduce a Kafka message broker](adrs/3.introduce-a-kafka-message-broker.md)
 
-### Checking format
+### Checking code format
   ```sh
 ./sbt scalafmtSbtCheck scalafmtCheckAll
 ```
@@ -186,6 +187,8 @@ usage: geohashcli [command] [options] [target [target2 [target3] ...]]
  -import,--import       Execute import command
  -p,--precision <arg>   Allow to set geohash precision
 ```
+**Note**: All initialize structure like database structure are manage by the [Liquibase](https://www.liquibase.org/) dependency 
+
 #### How do it look like?
 <img style="float: left;" src="images/geohashcli.png">
 
