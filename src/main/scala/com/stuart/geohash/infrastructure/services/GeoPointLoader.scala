@@ -19,14 +19,13 @@ object GeoPointLoader {
           else load(buffer, batchSize, mergedLines)
       } yield accumulator
 
-    private def isBatchFinish(numberOfLine: Int, batch: Int): Boolean = numberOfLine < batch - 1
+    private def isBatchFinish(numberOfLine: Int, batchSize: Int): Boolean = numberOfLine < batchSize - 1
 
     private def avoidHeaderLine(line: Option[String]): Option[String] = line.filterNot(p => p == "lat,lng")
 
-    private def readBatch(reader: BufferedReader, batch: Long): F[LazyList[String]] = {
-
+    private def readBatch(reader: BufferedReader, batchSize: Int): F[LazyList[String]] = {
       def mkRead: F[Option[String]] = Sync[F].delay(reader.readLine()).map(Option(_)).map(avoidHeaderLine)
-      (1L to batch).to(LazyList).traverse(_ => mkRead).map(_.flatten)
+      (1 to batchSize).to(LazyList).traverse(_ => mkRead).map(_.flatten)
     }
   }
 
