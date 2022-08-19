@@ -1,10 +1,9 @@
-package com.stuart.geohash.application.service
+package com.stuart.geohash.application.services
 
 import cats.effect.unsafe.implicits.global
 import cats.effect.{IO, Resource}
 import com.stuart.geohash.UnitSpec
 import com.stuart.geohash.application.dto.geohash.{GeoHashDTO, GeoPointConversionError}
-import com.stuart.geohash.application.services.ImportGeoHash
 import com.stuart.geohash.cross.GenGeoHash
 import com.stuart.geohash.domain.models.geohash._
 import com.stuart.geohash.domain.repositories.GeoHashRepository

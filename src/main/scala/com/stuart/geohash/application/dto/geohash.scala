@@ -11,7 +11,7 @@ import io.circe.{Decoder, Encoder}
 
 object geohash {
 
-  type GeoPointPred = Interval.ClosedOpen[W.`-90.0d`.T, W.`90.0d`.T]
+  type GeoPointPred = Interval.Closed[W.`-90.0d`.T, W.`90.0d`.T]
   type Latitude     = Double Refined GeoPointPred
   type Longitude    = Double Refined GeoPointPred
 
