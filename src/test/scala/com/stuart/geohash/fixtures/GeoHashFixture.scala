@@ -1,5 +1,7 @@
 package com.stuart.geohash.fixtures
 
+import cats.effect.{IO, Resource}
+import com.stuart.geohash.application.dto.geohash.GeoHashDTO
 import com.stuart.geohash.domain.models.geohash.{
   GeoHash,
   GeoHashMaxPrecision,
@@ -8,6 +10,8 @@ import com.stuart.geohash.domain.models.geohash.{
   Longitude,
   UniquePrefix
 }
+
+import java.io.BufferedReader
 
 trait GeoHashFixture {
 
@@ -26,4 +30,9 @@ trait GeoHashFixture {
 
   lazy val geoHash2 =
     GeoHash(GeoPoint(Latitude(lat2), Longitude(lon2)), GeoHashMaxPrecision(maxPres2), UniquePrefix(uniquePrefix2))
+
+  def mkR(f: BufferedReader): Resource[IO, BufferedReader] = Resource.make(IO(f))(_ => IO(f.close()))
+  def onBatchFinish(l: List[GeoHashDTO]): IO[Unit]         = IO.unit
+  def onStart: IO[Unit]                                    = IO.unit
+  def onFinish: IO[Unit]                                   = IO.unit
 }

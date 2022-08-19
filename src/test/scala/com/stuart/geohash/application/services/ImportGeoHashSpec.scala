@@ -110,10 +110,4 @@ class ImportGeoHashSpec extends UnitSpec with GeoHashFixture {
     }
 
   }
-
-  def mkR(f: BufferedReader): Resource[IO, BufferedReader] = Resource.make(IO(f))(_ => IO(f.close()))
-
-  def onBatchFinish(l: List[GeoHashDTO]): IO[Unit] = IO.unit
-  def onStart: IO[Unit]                            = IO.unit
-  def onFinish: IO[Unit]                           = IO.unit
 }

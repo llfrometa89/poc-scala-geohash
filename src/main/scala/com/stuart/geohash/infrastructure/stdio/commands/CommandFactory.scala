@@ -13,22 +13,21 @@ trait CommandFactory[F[_]] {
 
 object CommandFactory {
 
-  def make[F[_]: Sync](command: Commands[F]): CommandFactory[F] = new CommandFactory[F] {
+  def make[F[_]: Sync](command: Commands[F]): CommandFactory[F] =
+    new CommandFactory[F] {
 
-    val availableTools    = List("geohashcli")
-    val availableCommands = Map(Keyword.`import` -> command.importCommand)
+      val availableTools    = List("geohashcli")
+      val availableCommands = Map(Keyword.`import` -> command.importCommand)
 
-    def getCommand(args: Array[String]): F[CommandLineRunner[F]] = for {
-      _              <- Sync[F].whenA(args.size < 2)(printHelp *> Sync[F].raiseError(InvalidArguments(args)))
-      tool           <- Sync[F].delay(args(0))
-      commandKeyword <- Sync[F].delay(args(1))
-      _              <- Sync[F].whenA(!availableTools.contains(tool))(Sync[F].raiseError(ToolNotFound(tool)))
-      command        <- availableCommands.get(commandKeyword).liftTo[F](CommandNotAvailable(commandKeyword))
-    } yield command
+      def getCommand(args: Array[String]): F[CommandLineRunner[F]] = for {
+        _              <- Sync[F].whenA(args.size < 2)(printHelp *> Sync[F].raiseError(InvalidArguments(args)))
+        tool           <- Sync[F].delay(args(0))
+        commandKeyword <- Sync[F].delay(args(1))
+        _              <- Sync[F].whenA(!availableTools.contains(tool))(Sync[F].raiseError(ToolNotFound(tool)))
+        command        <- availableCommands.get(commandKeyword).liftTo[F](CommandNotAvailable(commandKeyword))
+      } yield command
 
-    private def printHelp = {
-      val options = CommandOptions.make[F]()
-      CommandLineRunnerHelper.printHelp(options)
+      private def printHelp =
+        command.runnerHelper.printHelp
     }
-  }
 }

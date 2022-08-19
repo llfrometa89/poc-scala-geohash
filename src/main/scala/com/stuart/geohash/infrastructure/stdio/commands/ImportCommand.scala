@@ -22,7 +22,8 @@ object ImportCommand {
   def make[F[_]: Sync: Console](
     commandOptions: CommandOptions[F],
     importGeoHash: ImportGeoHash[F],
-    consoleOutput: ImportCommandFormatConsoleOutput[F]
+    consoleOutput: ImportCommandFormatConsoleOutput[F],
+    commandLineRunnerHelper: CommandLineRunnerHelper[F]
   ): ImportCommand[F] =
     new ImportCommand[F] {
 
@@ -30,7 +31,7 @@ object ImportCommand {
       final val DefaultPrecision = 5
 
       def run(args: Array[String]): F[Unit] = for {
-        parser  <- CommandLineRunnerHelper.parser[F]()
+        parser  <- commandLineRunnerHelper.parser
         options <- commandOptions.getOptions
         cmd     <- Sync[F].delay(parser.parse(options, args))
         hasFile <- Sync[F].delay(cmd.hasOption(CommandOptionsKeyword.file))
