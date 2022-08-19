@@ -22,6 +22,9 @@ class CommandFactorySpec extends UnitSpec with CommandFixture {
 
     val result = commandFactory.getCommand(argsWithImportCommand).unsafeRunSync()
     result shouldBe a[ImportCommand[IO]]
+
+    verify(command).importCommand
+    verify(command, times(2)).helpCommand
   }
   it should "return a help command when is present in the arguments" in {
     val command: Commands[IO]            = mock[Commands[IO]]
@@ -34,6 +37,9 @@ class CommandFactorySpec extends UnitSpec with CommandFixture {
 
     val result = commandFactory.getCommand(argsWithHelpCommand).unsafeRunSync()
     result shouldBe a[HelpCommand[IO]]
+
+    verify(command).importCommand
+    verify(command, times(2)).helpCommand
   }
   it should "raise and error when the args dont have enough count to process a command" in {
     val command: Commands[IO]                                = mock[Commands[IO]]
@@ -50,6 +56,11 @@ class CommandFactorySpec extends UnitSpec with CommandFixture {
     assertThrows[InvalidArguments] {
       commandFactory.getCommand("unknown".toArrayBySpace).unsafeRunSync()
     }
+
+    verify(command).importCommand
+    verify(command, times(2)).helpCommand
+    verify(command).runnerHelper
+    verify(commandLineRunnerHelper).printHelp
   }
 
   it should "raise and error when the tool name was not found" in {
@@ -64,6 +75,9 @@ class CommandFactorySpec extends UnitSpec with CommandFixture {
     assertThrows[ToolNotFound] {
       commandFactory.getCommand("unknown unknown".toArrayBySpace).unsafeRunSync()
     }
+
+    verify(command).importCommand
+    verify(command, times(2)).helpCommand
   }
 
   it should "raise and error when the command name was not found" in {
@@ -78,5 +92,8 @@ class CommandFactorySpec extends UnitSpec with CommandFixture {
     assertThrows[CommandNotAvailable] {
       commandFactory.getCommand("geohashcli unknown".toArrayBySpace).unsafeRunSync()
     }
+
+    verify(command).importCommand
+    verify(command, times(2)).helpCommand
   }
 }

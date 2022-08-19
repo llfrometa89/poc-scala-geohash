@@ -9,9 +9,9 @@ import com.stuart.geohash.fixtures.{CommandFixture, GeoHashFixture}
 import com.stuart.geohash.infrastructure.stdio.helpers.CommandLineRunnerHelper
 import com.stuart.geohash.infrastructure.stdio.output.ImportCommand.ImportCommandFormatConsoleOutput
 import com.stuart.geohash.infrastructure.stdio.{CommandOptions, CommandOptionsKeyword}
-import org.apache.commons.cli.{CommandLine, CommandLineParser, DefaultParser, Options}
+import org.apache.commons.cli._
+
 import java.io.BufferedReader
-import org.apache.commons.cli.ParseException
 
 class ImportCommandSpec extends UnitSpec with GeoHashFixture with CommandFixture {
 

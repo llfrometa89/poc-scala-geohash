@@ -10,6 +10,7 @@ import com.stuart.geohash.domain.models.geohash.{
   Longitude,
   UniquePrefix
 }
+import com.stuart.geohash.infrastructure.repositories.GeoHashSQL.GeoHashEntity
 
 import java.io.BufferedReader
 
@@ -31,8 +32,10 @@ trait GeoHashFixture {
   lazy val geoHash2 =
     GeoHash(GeoPoint(Latitude(lat2), Longitude(lon2)), GeoHashMaxPrecision(maxPres2), UniquePrefix(uniquePrefix2))
 
-  def mkR(f: BufferedReader): Resource[IO, BufferedReader] = Resource.make(IO(f))(_ => IO(f.close()))
-  def onBatchFinish(l: List[GeoHashDTO]): IO[Unit]         = IO.unit
-  def onStart: IO[Unit]                                    = IO.unit
-  def onFinish: IO[Unit]                                   = IO.unit
+  lazy val geoHashEntity1 = GeoHashEntity(lat1, lon1, maxPres1, uniquePrefix1)
+
+  def mkBufferResource(f: BufferedReader): Resource[IO, BufferedReader] = Resource.make(IO(f))(_ => IO(f.close()))
+  def onBatchFinish(l: List[GeoHashDTO]): IO[Unit]                      = IO.unit
+  def onStart: IO[Unit]                                                 = IO.unit
+  def onFinish: IO[Unit]                                                = IO.unit
 }

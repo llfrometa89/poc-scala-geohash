@@ -21,7 +21,7 @@ class ImportGeoHashSpec extends UnitSpec with GeoHashFixture {
     val precision: Int                      = 5
     val stub: ImportGeoHash[IO]             = ImportGeoHash.make(geoHashRepository)
     val bufferedReader: BufferedReader      = mock[BufferedReader]
-    val bufferResource                      = mkR(bufferedReader)
+    val bufferResource                      = mkBufferResource(bufferedReader)
 
     when(bufferedReader.readLine()).thenReturn("41.388828145321,2.1689976634898", "41.390743,2.1647467", null)
     when(genGeoHash.make(GeoPoint(Latitude(lat1), Longitude(lon1)), 12)).thenReturn(IO.pure(maxPres1))
@@ -52,7 +52,7 @@ class ImportGeoHashSpec extends UnitSpec with GeoHashFixture {
     val precision: Int                      = 5
     val stub: ImportGeoHash[IO]             = ImportGeoHash.make(geoHashRepository)
     val bufferedReader: BufferedReader      = mock[BufferedReader]
-    val bufferResource                      = mkR(bufferedReader)
+    val bufferResource                      = mkBufferResource(bufferedReader)
 
     when(bufferedReader.readLine()).thenReturn("41.388828145321,2.1689976634898", "41.390743,2.1647467", null)
     when(genGeoHash.make(GeoPoint(Latitude(lat1), Longitude(lon1)), 12)).thenReturn(IO.pure(maxPres1))
@@ -84,7 +84,7 @@ class ImportGeoHashSpec extends UnitSpec with GeoHashFixture {
     val precision: Int                      = 5
     val stub: ImportGeoHash[IO]             = ImportGeoHash.make(geoHashRepository)
     val bufferedReader: BufferedReader      = mock[BufferedReader]
-    val bufferResource                      = mkR(bufferedReader)
+    val bufferResource                      = mkBufferResource(bufferedReader)
 
     when(bufferedReader.readLine()).thenReturn("unknown,unknown", null)
 
@@ -101,7 +101,7 @@ class ImportGeoHashSpec extends UnitSpec with GeoHashFixture {
     val precision: Int                      = 5
     val stub: ImportGeoHash[IO]             = ImportGeoHash.make(geoHashRepository)
     val bufferedReader: BufferedReader      = mock[BufferedReader]
-    val bufferResource                      = mkR(bufferedReader)
+    val bufferResource                      = mkBufferResource(bufferedReader)
 
     when(bufferedReader.readLine()).thenReturn("30000,30000", null)
 

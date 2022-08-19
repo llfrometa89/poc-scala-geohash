@@ -1,40 +1,48 @@
 package com.stuart.geohash.infrastructure.repositories
 
 import cats.effect.kernel.Async
+import cats.implicits._
 import com.stuart.geohash.domain.models.geohash._
 import com.stuart.geohash.domain.repositories.GeoHashRepository
 import com.stuart.geohash.infrastructure.db.client.MySqlClient
+import com.stuart.geohash.infrastructure.repositories.GeoHashSQL.GeoHashEntity
 import doobie.ConnectionIO
-import doobie.hikari.HikariTransactor
 import doobie.implicits._
-import cats.implicits._
+import doobie.util.transactor.Transactor
 
 object GeoHashMySqlRepository {
 
-  def make[F[_]: Async](mySqlClient: MySqlClient[F]): GeoHashRepository[F] = new GeoHashRepository[F] {
+  def make[F[_]: Async](mySqlClient: MySqlClient[F], geoHashSQL: GeoHashSQL): GeoHashRepository[F] =
+    new GeoHashRepository[F] {
 
-    def create(geoHash: GeoHash): F[GeoHash] = for {
-      ax <- mySqlClient.transactor
-      _  <- mkExecute(GeoHashSQL.insert(geoHash), ax)
-    } yield geoHash
-
-    def findBy(geoHashMaxPrecision: GeoHashMaxPrecision): F[Option[GeoHash]] =
-      for {
-        ax      <- mySqlClient.transactor
-        mEntity <- mkExecute(GeoHashSQL.selectByGeoHash(geoHashMaxPrecision.value), ax)
-        geoHash <- mEntity.map(_.toGeoHash).pure[F]
+      def create(geoHash: GeoHash): F[GeoHash] = for {
+        ax <- mySqlClient.transactor
+        _  <- mkExecute(geoHashSQL.insert(geoHash), ax)
       } yield geoHash
 
-    def findAll(page: Long, size: Long): F[List[GeoHash]] =
-      for {
-        ax        <- mySqlClient.transactor
-        entities  <- mkExecute(GeoHashSQL.selectAll(page, size), ax)
-        geoHashes <- entities.map(_.toGeoHash).pure[F]
-      } yield geoHashes
+      def findBy(geoHashMaxPrecision: GeoHashMaxPrecision): F[Option[GeoHash]] =
+        for {
+          ax      <- mySqlClient.transactor
+          mEntity <- mkExecute(geoHashSQL.selectByGeoHash(geoHashMaxPrecision), ax)
+          geoHash <- mEntity.map(_.toGeoHash).pure[F]
+        } yield geoHash
 
-    private def mkExecute[A](connectionIO: ConnectionIO[A], transactor: HikariTransactor[F]): F[A] =
-      connectionIO.transact(transactor)
-  }
+      def findAll(page: Long, size: Long): F[List[GeoHash]] =
+        for {
+          ax        <- mySqlClient.transactor
+          entities  <- mkExecute(geoHashSQL.selectAll(page, size), ax)
+          geoHashes <- entities.map(_.toGeoHash).pure[F]
+        } yield geoHashes
+
+      private def mkExecute[A](connectionIO: ConnectionIO[A], transactor: Transactor[F]): F[A] =
+        connectionIO.transact(transactor)
+    }
+}
+
+trait GeoHashSQL {
+  def insert(geoHash: GeoHash): doobie.ConnectionIO[Int]
+  def selectAll(page: Long, size: Long): doobie.ConnectionIO[List[GeoHashEntity]]
+  def selectByGeoHash(geoHash: GeoHashMaxPrecision): doobie.ConnectionIO[Option[GeoHashEntity]]
 }
 
 object GeoHashSQL {
@@ -48,8 +56,10 @@ object GeoHashSQL {
       )
   }
 
-  def insert(geoHash: GeoHash): doobie.ConnectionIO[Int] =
-    sql"""
+  def make: GeoHashSQL = new GeoHashSQL {
+
+    def insert(geoHash: GeoHash): doobie.ConnectionIO[Int] =
+      sql"""
          INSERT
             INTO geohash (latitude, longitude, geohash, unique_prefix )
             VALUES (${geoHash.geoPoint.latitude.value}, 
@@ -58,18 +68,18 @@ object GeoHashSQL {
                     ${geoHash.uniquePrefix.value})
        """.update.run
 
-  def selectAll(page: Long, size: Long): doobie.ConnectionIO[List[GeoHashEntity]] =
-    sql"""
+    def selectAll(page: Long, size: Long): doobie.ConnectionIO[List[GeoHashEntity]] =
+      sql"""
         SELECT * FROM geohash LIMIT ${page},${size}
        """
-      .query[GeoHashEntity]
-      .to[List]
+        .query[GeoHashEntity]
+        .to[List]
 
-  def selectByGeoHash(geoHash: String): doobie.ConnectionIO[Option[GeoHashEntity]] =
-    sql"""
-        SELECT * FROM geohash WHERE geohash=${geoHash}
+    def selectByGeoHash(geoHash: GeoHashMaxPrecision): doobie.ConnectionIO[Option[GeoHashEntity]] =
+      sql"""
+        SELECT * FROM geohash WHERE geohash=${geoHash.value}
        """
-      .query[GeoHashEntity]
-      .option
-
+        .query[GeoHashEntity]
+        .option
+  }
 }
