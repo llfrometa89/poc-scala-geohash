@@ -52,3 +52,6 @@ Here is a brief preview of what you will find on the [Solution](docs/Solution.md
 Here is a first look at what the developed command line application looks like.
 
 <img style="float: left;" src="docs/images/geohashcli.png">
+
+:tada: I know, you liked this, that's why I invite you to find a deep explanation on the [Solution](docs/Solution.md) page.
+Finally, don't hesitate to contact me if you consider that I can clarify any aspect related to the code challenge 

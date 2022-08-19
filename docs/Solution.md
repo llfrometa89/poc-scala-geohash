@@ -111,6 +111,10 @@ in the following document.
 - [Choose mysql as main storage](adrs/2.choose-mysql-as-main-database.md)
 - [Introduce a Kafka message broker](adrs/3.introduce-a-kafka-message-broker.md)
 
+### Checking format
+  ```sh
+./sbt scalafmtSbtCheck scalafmtCheckAll
+```
 ### Testing
 > Note that, thanks to test-containers, you don't need any infrastructure component to run integration test on
 > your local environment
@@ -133,6 +137,7 @@ More information related to this topic, check the [official documentation](https
 ```sh
 ./sbt stage
 ```
+you can find the executable in the following path `target/universal/stage/bin/geohash`.
 ### Running Stuart GeoHash CLI
 #### Available command
 - Import geopoint to generate geohash
