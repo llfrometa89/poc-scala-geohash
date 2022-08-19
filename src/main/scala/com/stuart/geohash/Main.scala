@@ -1,5 +1,6 @@
 package com.stuart.geohash
 
+import cats.Parallel
 import cats.effect.std.Console
 import cats.effect.{Async, IO, IOApp, Sync}
 import cats.implicits._
@@ -22,7 +23,7 @@ object Main extends IOApp.Simple {
     liquibase.update()
   }
 
-  def program[F[_]: Async: Console](resources: AppResources[F]): F[Unit] =
+  def program[F[_]: Async: Parallel: Console](resources: AppResources[F]): F[Unit] =
     for {
       _    <- Console[F].println(Banner.mkString("\n"))
       _    <- Console[F].println("Welcome to Stuart GeoHash CLI tool:")
