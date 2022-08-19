@@ -78,7 +78,7 @@ the following:
   set of values described by the refined type. [docs](https://github.com/fthomas/refined)
 - `doobie` - it's a pure functional JDBC layer for Scala and Cats. nor is it a relational algebra; it simply 
   provides a functional way to construct programs (and higher-level libraries) that use JDBC. [docs](https://tpolecat.github.io/doobie/)
-
+- `geohash` - Java code for geohashes [docs](https://github.com/kungfoo/geohash-java)
 #### Parallelization
 Cats-Effect 3 has included a rich and efficient threading model to support freezing and concurrency solutions using thread pools.
 It makes use of a simple Fibers model where you have physical and virtual threads to achieve high performance.
