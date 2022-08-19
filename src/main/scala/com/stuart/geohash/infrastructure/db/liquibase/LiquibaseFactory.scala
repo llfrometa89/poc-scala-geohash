@@ -3,7 +3,6 @@ package com.stuart.geohash.infrastructure.db.liquibase
 import cats.effect.Sync
 import cats.implicits._
 import com.stuart.geohash.infrastructure.db.client.MySqlClient
-import com.zaxxer.hikari.HikariDataSource
 import liquibase.database.jvm.JdbcConnection
 import liquibase.database.{Database, DatabaseFactory}
 import liquibase.resource.ClassLoaderResourceAccessor

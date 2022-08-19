@@ -10,6 +10,7 @@ has been developed to support the exercise. You can find more details in the
 following sections.
 
 ## Table of contents
+- [Requirements](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#requirements)
 - [Terminology](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#terminology)
 - [Solution](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#solution)
   - [Package structure](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#package-structure)
@@ -23,6 +24,11 @@ following sections.
 - [Known issue](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#known-issue)
 - [How to contribute](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#how-to-contribute)
 
+
+### Requirements
+- Install `sbt` 1.7.x or later. Also, you can use the [sbt-extra](https://raw.githubusercontent.com/dwijnand/sbt-extras/master/sbt) 
+  tool present in this repository-e.g `~$ ./sbt compile`
+- Install `java` 11 or later. Yeah, this component is compatible with `Java 17` in the LST version `Eclipse Adoptium Java 17.0.3` 
 
 ### Terminology
 - `F[_]` is a functional programming feature called type constructor used in higher kinded type definition.

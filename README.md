@@ -34,6 +34,7 @@ You can find the detailed description of the developed solution on the Solution 
 Here is a brief preview of what you will find on the [Solution](docs/Solution.md) page.
 
 ### :arrow_right: Table of contents
+- [Requirements](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#requirements)
 - [Terminology](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#terminology)
 - [Solution](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#solution)
     - [Package structure](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#package-structure)

@@ -1,6 +1,5 @@
 package com.stuart.geohash.infrastructure.ioc.provider
 
-import cats.effect.Resource
 import cats.effect.kernel.Async
 import com.stuart.geohash.infrastructure.configuration.AppConfig
 import com.stuart.geohash.infrastructure.db.client.MySqlClient
