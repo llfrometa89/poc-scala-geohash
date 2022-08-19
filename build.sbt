@@ -22,6 +22,7 @@ lazy val root = project
     libraryDependencies ++= testDependencies,
     scalacOptions ++= commonScalacOptions
   )
+  .enablePlugins(JavaAppPackaging)
   .configs(IntegrationTest)
   .settings(
     inConfig(IntegrationTest)(Defaults.itSettings),

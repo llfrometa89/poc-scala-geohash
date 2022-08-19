@@ -148,6 +148,33 @@ usage: geohashcli [command] [options] [target [target2 [target3] ...]]
  -import,--import       Execute import command
  -p,--precision <arg>   Allow to set geohash precision
 ```
+#### Running
+After **Building** step you has available the executable in `target/universal/stage`.
+Then export the variables present in `.env` file.
+```sh
+export DB_MYSQL_JDBC_URL=[DB_MYSQL_JDBC_URL]
+export DB_MYSQL_USER=[DB_MYSQL_USER]
+export DB_MYSQL_PASSWORD=[DB_MYSQL_PASSWORD]
+export DB_MYSQL_MAXIMUM_POOL_SIZE=[DB_MYSQL_MAXIMUM_POOL_SIZE]
+```
+Now run the following command and write your command here.
+```
+~/target/universal/stage$ ./bin/geohash
+  ___ _                 _       ___ _    ___ 
+ / __| |_ _  _ __ _ _ _| |_    / __| |  |_ _|
+ \__ \  _| || / _` | '_|  _|  | (__| |__ | | 
+ |___/\__|\_,_\__,_|_|  \__|   \___|____|___|
+ 
+Welcome to Stuart GeoHash CLI tool:
+geohashcli --help
+usage: geohashcli [command] [options] [target [target2 [target3] ...]]
+ -b,--batch <arg>       Allow to set batch value
+ -f,--file <arg>        Allow to set file address
+ -fmt,--format <arg>    Allow to set file format
+ -help,--help           Execute help command
+ -import,--import       Execute import command
+ -p,--precision <arg>   Allow to set geohash precision
+```
 #### How do it look like?
 <img style="float: left;" src="images/geohashcli.png">
 
