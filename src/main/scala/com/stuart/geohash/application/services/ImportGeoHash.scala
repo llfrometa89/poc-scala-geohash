@@ -19,7 +19,7 @@ trait ImportGeoHash[F[_]] {
     onBatchFinish: List[GeoHashDTO] => F[Unit],
     onStart: => F[Unit],
     onFinish: => F[Unit]
-  ): F[List[GeoHashDTO]]
+  ): F[Unit]
 }
 
 object ImportGeoHash {
@@ -35,7 +35,7 @@ object ImportGeoHash {
       onBatchFinish: List[GeoHashDTO] => F[Unit],
       onStart: => F[Unit],
       onFinish: => F[Unit]
-    ): F[List[GeoHashDTO]] = {
+    ): F[Unit] = {
 
       def mkGeoHash(geoPoint: GeoPoint): F[GeoHash] = for {
         maxPrecisionGeoHash <- GenGeoHash[F].make(geoPoint, MaxPrecision)
@@ -48,17 +48,14 @@ object ImportGeoHash {
 
       def isBatchFinish(lines: List[String]) = lines.size < batch - 1
 
-      def processGeoPoints(buffer: BufferedReader, list: List[GeoHashDTO]): F[List[GeoHashDTO]] = for {
+      def processGeoPoints(buffer: BufferedReader): F[Unit] = for {
         lines     <- readBatch(buffer, batch)
         geoPoints <- lines.traverse(toImportGeoPoint)
         geoHashes <- geoPoints.traverse(gp => mkGeoHash(gp.toGeoPoint))
         _         <- geoHashes.traverse(mkSaveGeoHash)
-        geoHashesAsDto  = geoHashes.map(GeoHashDTO.fromGeoHash)
-        geoHashesMerged = list ::: geoHashesAsDto
-        accumulator <-
-          if (isBatchFinish(lines)) geoHashesMerged.pure[F]
-          else onBatchFinish(geoHashesAsDto) >> processGeoPoints(buffer, geoHashesMerged)
-      } yield accumulator
+        geoHashesAsDto = geoHashes.map(GeoHashDTO.fromGeoHash)
+        _ <- if (isBatchFinish(lines)) Sync[F].unit else onBatchFinish(geoHashesAsDto) >> processGeoPoints(buffer)
+      } yield ()
 
       def mkSaveGeoHash(geoHash: GeoHash): F[Unit] = for {
         mGeoHash <- repository.findBy(geoHash.geoHash)
@@ -67,10 +64,10 @@ object ImportGeoHash {
 
       file.use { buffer =>
         for {
-          _         <- onStart
-          geoHashes <- processGeoPoints(buffer, List.empty[GeoHashDTO])
-          _         <- onFinish
-        } yield geoHashes
+          _ <- onStart
+          _ <- processGeoPoints(buffer)
+          _ <- onFinish
+        } yield ()
       }
     }
 

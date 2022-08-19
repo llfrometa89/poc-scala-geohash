@@ -72,6 +72,5 @@ object ImportCommand {
 
       private def onBatchFinish(format: Option[String])(geoHashes: List[GeoHashDTO]): F[Unit] =
         consoleOutput.getConsoleOutputByFormat(format).printGeoHashes(geoHashes)
-
     }
 }
