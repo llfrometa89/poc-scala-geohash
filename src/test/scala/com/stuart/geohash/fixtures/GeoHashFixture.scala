@@ -26,6 +26,11 @@ trait GeoHashFixture {
   val maxPres2      = "sp3e2wuys9dr"
   val uniquePrefix2 = "sp3e3"
 
+  val batchSize = 2
+  val precision = 5
+  val line1     = "41.388828145321,2.1689976634898"
+  val line2     = "41.390743,2.1647467"
+
   lazy val geoHash1 =
     GeoHash(GeoPoint(Latitude(lat1), Longitude(lon1)), GeoHashMaxPrecision(maxPres1), UniquePrefix(uniquePrefix1))
 
