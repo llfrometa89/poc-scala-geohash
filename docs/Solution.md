@@ -129,7 +129,7 @@ Start time: 2022-08-20T03:56:58.652
 Finish time: 2022-08-20T04:06:36.319
 Total lines: 100000
 Number of lines to process: 93625
-Count Of batches: 188
+Count of batches: 188
 Batch size: 500
 Total execution time: 9min
 Count of errors: 3
