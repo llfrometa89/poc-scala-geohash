@@ -6,17 +6,14 @@ import com.stuart.fixtures.GeoHashFixtureIT
 import com.stuart.geohash.domain.models.geohash.GeoHashMaxPrecision
 import com.stuart.geohash.domain.repositories.GeoHashRepository
 import com.stuart.geohash.infrastructure.repositories.{GeoHashMySqlRepository, GeoHashSQL}
-import com.stuart.{IntegrationSpec, MySqlTestingConnection, TestContainer}
+import com.stuart.{IntegrationSpec, MySqlTestingConnection}
 import org.scalatest.OptionValues
 
 class GeoHashMysqlRepositoryITSpec
     extends IntegrationSpec
-    with TestContainer
     with MySqlTestingConnection
     with GeoHashFixtureIT
     with OptionValues {
-
-  override def beforeAll(): Unit = initializeDatabase()
 
   before {
     cleanDatabase()
@@ -72,6 +69,5 @@ class GeoHashMysqlRepositoryITSpec
     repository  <- IO.delay(GeoHashMySqlRepository.make[IO](mySqlClient, GeoHashSQL.make))
   } yield repository
 
-  def cleanDatabase(): Unit =
-    getRepository.flatMap(_.deleteAll()).unsafeRunSync()
+  def cleanDatabase(): Unit = getRepository.flatMap(_.deleteAll()).unsafeRunSync()
 }

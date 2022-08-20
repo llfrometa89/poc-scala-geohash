@@ -20,14 +20,15 @@ lazy val root = project
     scalaVersion := "2.13.8",
     libraryDependencies ++= dependencies,
     libraryDependencies ++= testDependencies,
-    scalacOptions ++= commonScalacOptions
+    scalacOptions ++= commonScalacOptions,
+    Test / fork := true
   )
   .enablePlugins(JavaAppPackaging)
   .configs(IntegrationTest)
   .settings(
     inConfig(IntegrationTest)(Defaults.itSettings),
     IntegrationTest / fork               := true,
-    IntegrationTest / testForkedParallel := true
+    IntegrationTest / testForkedParallel := false
   )
 
 lazy val dependencies = Seq(
@@ -60,5 +61,6 @@ lazy val testDependencies = Seq(
   Libraries.refinedScalacheck,
   Libraries.scalaTestCheck,
   Libraries.mockitoScala,
-  Libraries.testContainers
+  Libraries.testContainers,
+  Libraries.testContainerScalaScalatest
 )

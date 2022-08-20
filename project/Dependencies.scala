@@ -1,26 +1,27 @@
-import Dependencies.Libraries.ciris
+import Dependencies.Libraries.{ciris, testContainerScalaScalatest}
 import sbt._
 
 object Dependencies {
 
   object V {
-    val cats               = "2.8.0"
-    val catsEffect         = "3.3.14"
-    val log4cats           = "2.3.1"
-    val doobie             = "1.0.0-RC2"
-    val mysqlConnectorJava = "8.0.30"
-    val refined            = "0.9.29"
-    val newtype            = "0.4.4"
-    val logback            = "1.2.11"
-    val scalaTest          = "3.2.13"
-    val mockitoScala       = "1.14.4"
-    val testContainers     = "1.17.2"
-    val geohash            = "1.4.0"
-    val scalaTestCheck     = "3.2.2.0"
-    val commonsCli         = "1.5.0"
-    val circe              = "0.14.2"
-    val ciris              = "2.3.2"
-    val liquibase          = "4.15.0"
+    val cats                        = "2.8.0"
+    val catsEffect                  = "3.3.14"
+    val log4cats                    = "2.3.1"
+    val doobie                      = "1.0.0-RC2"
+    val mysqlConnectorJava          = "8.0.30"
+    val refined                     = "0.9.29"
+    val newtype                     = "0.4.4"
+    val logback                     = "1.2.11"
+    val scalaTest                   = "3.2.13"
+    val mockitoScala                = "1.14.4"
+    val testContainers              = "1.17.2"
+    val geohash                     = "1.4.0"
+    val scalaTestCheck              = "3.2.2.0"
+    val commonsCli                  = "1.5.0"
+    val circe                       = "0.14.2"
+    val ciris                       = "2.3.2"
+    val liquibase                   = "4.15.0"
+    val testContainerScalaScalatest = "0.40.10"
   }
 
   object Libraries {
@@ -67,6 +68,8 @@ object Dependencies {
     val scalaTestCheck = "org.scalatestplus" %% "scalacheck-1-14" % V.scalaTestCheck % "test, it"
     val mockitoScala   = "org.mockito"       %% "mockito-scala"   % V.mockitoScala   % "test, it"
     val testContainers = "org.testcontainers" % "testcontainers"  % V.testContainers % "it"
+    val testContainerScalaScalatest =
+      "com.dimafeng" %% "testcontainers-scala-scalatest" % V.testContainerScalaScalatest % "test, it"
 
   }
 }
