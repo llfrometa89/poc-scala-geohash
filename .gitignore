@@ -10,4 +10,5 @@ project/plugins/project/
 .idea/
 .bsp/
 .DS_Store
-test_points*.txt
+test_points.txt
+test_points2.txt
