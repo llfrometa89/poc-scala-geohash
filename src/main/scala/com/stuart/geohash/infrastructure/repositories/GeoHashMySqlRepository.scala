@@ -15,7 +15,7 @@ import java.sql.SQLIntegrityConstraintViolationException
 
 object GeoHashMySqlRepository {
 
-  def make[F[_]: Async](mySqlClient: MySqlClient[F], geoHashSQL: GeoHashSQL): GeoHashRepository[F] =
+  def make[F[_]: Async](mySqlClient: MySqlClient[F], geoHashSQL: GeoHashSQL[ConnectionIO]): GeoHashRepository[F] =
     new GeoHashRepository[F] {
 
       def create(geoHash: GeoHash): F[GeoHash] = {
@@ -44,15 +44,22 @@ object GeoHashMySqlRepository {
           geoHashes <- entities.map(_.toGeoHash).pure[F]
         } yield geoHashes
 
+      override def deleteAll(): F[Unit] =
+        for {
+          ax <- mySqlClient.transactor
+          _  <- mkExecute(geoHashSQL.deleteAll(), ax)
+        } yield ()
+
       private def mkExecute[A](connectionIO: ConnectionIO[A], transactor: Transactor[F]): F[A] =
         connectionIO.transact(transactor)
     }
 }
 
-trait GeoHashSQL {
-  def insert(geoHash: GeoHash): doobie.ConnectionIO[Int]
-  def selectAll(page: Int, size: Int): doobie.ConnectionIO[List[GeoHashEntity]]
-  def selectByGeoHash(geoHash: GeoHashMaxPrecision): doobie.ConnectionIO[Option[GeoHashEntity]]
+trait GeoHashSQL[F[_]] {
+  def insert(geoHash: GeoHash): F[Int]
+  def selectAll(page: Int, size: Int): F[List[GeoHashEntity]]
+  def selectByGeoHash(geoHash: GeoHashMaxPrecision): F[Option[GeoHashEntity]]
+  def deleteAll(): ConnectionIO[Int]
 }
 
 object GeoHashSQL {
@@ -66,9 +73,9 @@ object GeoHashSQL {
       )
   }
 
-  def make: GeoHashSQL = new GeoHashSQL {
+  def make: GeoHashSQL[ConnectionIO] = new GeoHashSQL[ConnectionIO] {
 
-    def insert(geoHash: GeoHash): doobie.ConnectionIO[Int] =
+    def insert(geoHash: GeoHash): ConnectionIO[Int] =
       sql"""
          INSERT
             INTO geohash (latitude, longitude, geohash, unique_prefix )
@@ -78,14 +85,19 @@ object GeoHashSQL {
                     ${geoHash.uniquePrefix.value})
        """.update.run
 
-    def selectAll(page: Int, size: Int): doobie.ConnectionIO[List[GeoHashEntity]] =
+    def deleteAll(): ConnectionIO[Int] =
+      sql"""
+        DELETE FROM geohash
+       """.update.run
+
+    def selectAll(page: Int, size: Int): ConnectionIO[List[GeoHashEntity]] =
       sql"""
         SELECT * FROM geohash LIMIT ${page},${size}
        """
         .query[GeoHashEntity]
         .to[List]
 
-    def selectByGeoHash(geoHash: GeoHashMaxPrecision): doobie.ConnectionIO[Option[GeoHashEntity]] =
+    def selectByGeoHash(geoHash: GeoHashMaxPrecision): ConnectionIO[Option[GeoHashEntity]] =
       sql"""
         SELECT * FROM geohash WHERE geohash=${geoHash.value}
        """

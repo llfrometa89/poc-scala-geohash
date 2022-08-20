@@ -14,7 +14,7 @@ class GeoHashMySqlRepositorySpec extends UnitSpec with GeoHashFixture with Doobi
 
   "create" should "create a GeoHash when it is not stored" in {
     val mySqlClient: MySqlClient[IO] = mock[MySqlClient[IO]]
-    val geoHashSQL                   = mock[GeoHashSQL]
+    val geoHashSQL                   = mock[GeoHashSQL[ConnectionIO]]
     val repository                   = GeoHashMySqlRepository.make(mySqlClient, geoHashSQL)
 
     when(geoHashSQL.insert(geoHash1)).thenReturn(1.pure[ConnectionIO])
@@ -27,7 +27,7 @@ class GeoHashMySqlRepositorySpec extends UnitSpec with GeoHashFixture with Doobi
   "findBy" should "return a GeoHash when it is stored" in {
 
     val mySqlClient: MySqlClient[IO] = mock[MySqlClient[IO]]
-    val geoHashSQL                   = mock[GeoHashSQL]
+    val geoHashSQL                   = mock[GeoHashSQL[ConnectionIO]]
     val repository                   = GeoHashMySqlRepository.make(mySqlClient, geoHashSQL)
 
     when(geoHashSQL.selectByGeoHash(geoHash1.geoHash)).thenReturn(Option(geoHashEntity1).pure[ConnectionIO])
@@ -40,7 +40,7 @@ class GeoHashMySqlRepositorySpec extends UnitSpec with GeoHashFixture with Doobi
   it should "return a none when it is not stored" in {
 
     val mySqlClient: MySqlClient[IO] = mock[MySqlClient[IO]]
-    val geoHashSQL                   = mock[GeoHashSQL]
+    val geoHashSQL                   = mock[GeoHashSQL[ConnectionIO]]
     val repository                   = GeoHashMySqlRepository.make(mySqlClient, geoHashSQL)
 
     when(geoHashSQL.selectByGeoHash(geoHash1.geoHash)).thenReturn(Option.empty[GeoHashEntity].pure[ConnectionIO])
@@ -52,7 +52,7 @@ class GeoHashMySqlRepositorySpec extends UnitSpec with GeoHashFixture with Doobi
 
   "findAll" should "return a list of GeoHash in the page and size given" in {
     val mySqlClient: MySqlClient[IO] = mock[MySqlClient[IO]]
-    val geoHashSQL                   = mock[GeoHashSQL]
+    val geoHashSQL                   = mock[GeoHashSQL[ConnectionIO]]
     val repository                   = GeoHashMySqlRepository.make(mySqlClient, geoHashSQL)
 
     val page: Int = 1

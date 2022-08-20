@@ -21,7 +21,7 @@ object MySqlClient {
   def make[F[_]: Async](mysqlConfig: MysqlConfig): MySqlClient[F] = new MySqlClient[F] {
 
     val config = new HikariConfig()
-    config.setJdbcUrl(mysqlConfig.JdbcUrl.value)
+    config.setJdbcUrl(mysqlConfig.jdbcUrl.value)
     config.setUsername(mysqlConfig.user.value)
     config.setPassword(mysqlConfig.password.value.value)
     config.setMaximumPoolSize(mysqlConfig.maximumPoolSize.value)
