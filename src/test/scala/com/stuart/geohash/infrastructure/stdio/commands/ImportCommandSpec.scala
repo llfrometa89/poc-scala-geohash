@@ -3,8 +3,8 @@ package com.stuart.geohash.infrastructure.stdio.commands
 import cats.effect.unsafe.implicits.global
 import cats.effect.{IO, Resource}
 import com.stuart.geohash.UnitSpec
-import com.stuart.geohash.application.dto.geohash.GeoHashDTO
 import com.stuart.geohash.application.services.ImportGeoHash
+import com.stuart.geohash.application.services.ImportGeoHash.{BatchResult, ExecutionResult}
 import com.stuart.geohash.fixtures.{CommandFixture, GeoHashFixture}
 import com.stuart.geohash.infrastructure.stdio.helpers.CommandLineRunnerHelper
 import com.stuart.geohash.infrastructure.stdio.output.ImportCommand.ImportCommandFormatConsoleOutput
@@ -12,6 +12,7 @@ import com.stuart.geohash.infrastructure.stdio.{CommandOptions, CommandOptionsKe
 import org.apache.commons.cli._
 
 import java.io.BufferedReader
+import scala.concurrent.duration.FiniteDuration
 
 class ImportCommandSpec extends UnitSpec with GeoHashFixture with CommandFixture {
 
@@ -39,9 +40,9 @@ class ImportCommandSpec extends UnitSpec with GeoHashFixture with CommandFixture
         any[Resource[IO, BufferedReader]],
         any[Int],
         any[Int],
-        any[List[GeoHashDTO] => IO[Unit]],
-        any[IO[Unit]],
-        any[IO[Unit]]
+        any[BatchResult => IO[Unit]],
+        any[FiniteDuration => IO[Unit]],
+        any[ExecutionResult => IO[Unit]]
       )
     )
       .thenReturn(IO.unit)
@@ -60,9 +61,9 @@ class ImportCommandSpec extends UnitSpec with GeoHashFixture with CommandFixture
       any[Resource[IO, BufferedReader]],
       any[Int],
       any[Int],
-      any[List[GeoHashDTO] => IO[Unit]],
-      any[IO[Unit]],
-      any[IO[Unit]]
+      any[BatchResult => IO[Unit]],
+      any[FiniteDuration => IO[Unit]],
+      any[ExecutionResult => IO[Unit]]
     )
   }
   it should "catch and error when the import process was fail" in {

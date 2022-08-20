@@ -96,9 +96,45 @@ the following:
 #### Parallelization
 Cats-Effect 3 has included a rich and efficient threading model to support freezing and concurrency solutions using thread pools.
 It makes use of a simple Fibers model where you have physical and virtual threads to achieve high performance.
-I don't think I have enough time to complete this approach but in the following link you will find valuable information about it.
+In the following link you will find valuable information about this topic.
 - [Concurrency in Cats Effect 3](https://typelevel.org/blog/2020/10/30/concurrency-in-ce3.html)
 - [Why are Fibers fast?](https://typelevel.org/blog/2021/02/21/fibers-fast-mkay.html)
+
+For the solution I have used the type class [Parallel](https://typelevel.org/cats/typeclasses/parallel.html), `cats.Parallel`,
+and the `.parTraverse_` method. I am using the Thread pool created by `IORuntime` instance the `IOApp` main class. The command line
+is printing using three main functions: 
+- `onBatchFinish: BatchResult => F[Unit]` is called by for finished batch
+- `onStart: FiniteDuration => F[Unit]` is called when the process start
+- `onFinish: ExecutionResult => F[Unit]`  is called when the process start
+ 
+Here you can see an example with the command output after the process was completed.
+```sh
+  ___ _                 _       ___ _    ___ 
+ / __| |_ _  _ __ _ _ _| |_    / __| |  |_ _|
+ \__ \  _| || / _` | '_|  _|  | (__| |__ | | 
+ |___/\__|\_,_\__,_|_|  \__|   \___|____|___|
+ 
+Welcome to Stuart GeoHash CLI tool:
+geohashcli import --file=test_points.txt --precision=5 --batch=500 --format=csv
+
+Starting process at 2022-08-20T03:18:14.166
+lat,lng,geohash,uniq
+41.37484808,2.11886538,sp3e2hncvnsw,sp3e2
+41.37438124,2.11842003,sp3e25yx4z8m,sp3e2
+41.3806658,2.1647467,sp3e3m07f70n,sp3e3
+The import process has been finished at 2022-08-20T03:24:05.547
+
+------------------------ Execution summary ------------------------ 
+Start time: 2022-08-20T03:56:58.652
+Finish time: 2022-08-20T04:06:36.319
+Total lines: 100000
+Number of lines to process: 93625
+Count Of batches: 188
+Batch size: 500
+Total execution time: 9min
+Count of errors: 3
+------------------------------------------------------------------- 
+```
 
 ### Architecture Decision Records
 An Architecture Decision Record (ADR) is a document that captures a decision, including the context of how the decision

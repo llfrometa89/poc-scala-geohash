@@ -1,16 +1,20 @@
 package com.stuart.geohash.infrastructure.stdio.commands
 
 import cats.effect.std.Console
-import cats.effect.{Resource, Sync}
+import cats.effect.{Clock, Resource, Sync}
 import cats.implicits._
 import com.stuart.geohash.application.dto.geohash.GeoHashDTO
 import com.stuart.geohash.application.services.ImportGeoHash
+import com.stuart.geohash.application.services.ImportGeoHash.{BatchResult, ExecutionResult}
 import com.stuart.geohash.infrastructure.stdio.helpers.CommandLineRunnerHelper
+import com.stuart.geohash.infrastructure.stdio.output.{CsvFormatConsoleOutput, FormatConsoleOutput}
 import com.stuart.geohash.infrastructure.stdio.output.ImportCommand.ImportCommandFormatConsoleOutput
 import com.stuart.geohash.infrastructure.stdio.{CommandLineRunner, CommandOptions, CommandOptionsKeyword}
 import org.apache.commons.cli.CommandLine
+import com.stuart.geohash.cross.implicits._
 
 import java.io.{BufferedReader, File, FileReader}
+import scala.concurrent.duration.FiniteDuration
 
 trait ImportCommand[F[_]] extends CommandLineRunner[F] {
 
@@ -19,7 +23,7 @@ trait ImportCommand[F[_]] extends CommandLineRunner[F] {
 
 object ImportCommand {
 
-  def make[F[_]: Sync: Console](
+  def make[F[_]: Sync: Clock: Console](
     commandOptions: CommandOptions[F],
     importGeoHash: ImportGeoHash[F],
     consoleOutput: ImportCommandFormatConsoleOutput[F],
@@ -53,10 +57,11 @@ object ImportCommand {
         filename      <- Sync[F].delay(cmd.getOptionValue(CommandOptionsKeyword.file))
         mBatch        <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.batch)).map(_.toInt))
         mPrecision    <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.precision)).map(_.toInt))
-        mFormat       <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.format)))
+        format        <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.format)))
         batch         <- Sync[F].pure(mBatch.getOrElse(DefaultBatch))
         precision     <- Sync[F].pure(mPrecision.getOrElse(DefaultPrecision))
-        onBatchFinish <- Sync[F].pure(onBatchFinish(mFormat) _)
+        onBatchFinish <- Sync[F].pure(onBatchFinish(format) _)
+        onStart       <- Sync[F].pure(onStart(format) _)
         _ <- importGeoHash.importGeoHash(
           mkFileResource(filename),
           batch,
@@ -67,11 +72,38 @@ object ImportCommand {
         )
       } yield ()
 
-      private def onStart: F[Unit] = Console[F].println("onStart: Starting process")
+      private def onStart(format: Option[String])(startTime: FiniteDuration): F[Unit] = for {
+        _ <- Console[F].println(s"Starting process at ${startTime.formatDateTime}")
+        _ <- printHeader(format)
+      } yield ()
 
-      private def onFinish: F[Unit] = Console[F].println("onFinish: imported process have been finish")
+      private def onFinish(result: ExecutionResult): F[Unit] = for {
+        _ <- Console[F].println(s"The import process has been finished at ${result.finishTime.formatDateTime}")
+        _ <- Console[F].println("\n------------------------ Execution summary ------------------------ ")
+        _ <- Console[F].println(s"Start time: ${result.startTime.formatDateTime}")
+        _ <- Console[F].println(s"Finish time: ${result.finishTime.formatDateTime}")
+        _ <- Console[F].println(s"Total lines: ${result.totalLines}")
+        _ <- Console[F].println(s"Number of lines to process: ${result.totalToProcessLines}")
+        _ <- Console[F].println(s"Count Of batches: ${result.countOfBatches}")
+        _ <- Console[F].println(s"Batch size: ${result.batchSize}")
+        _ <- Console[F].println(s"Total execution time: ${(result.startTime, result.finishTime).elapsedTime}")
+        _ <- Console[F].println(s"Count of errors: ${result.errorBatches.size}")
+        _ <- Console[F].println("------------------------------------------------------------------- ")
+      } yield ()
 
-      private def onBatchFinish(format: Option[String])(geoHashes: List[GeoHashDTO]): F[Unit] =
-        consoleOutput.getConsoleOutputByFormat(format).printGeoHashes(geoHashes)
+      private def onBatchFinish(format: Option[String])(batchResult: BatchResult): F[Unit] =
+        for {
+          geoHashes <- Sync[F].pure(batchResult.geoHashes.map(GeoHashDTO.fromGeoHash))
+          _         <- consoleOutput.getConsoleOutputByFormat(format).printGeoHashes(geoHashes.toList)
+        } yield ()
+
+      private def printHeader(format: Option[String]): F[Unit] =
+        format
+          .map(FormatConsoleOutput(_))
+          .collect { case CsvFormatConsoleOutput =>
+            Console[F].println("lat,lng,geohash,uniq")
+          }
+          .sequence >> Sync[F].unit
+
     }
 }

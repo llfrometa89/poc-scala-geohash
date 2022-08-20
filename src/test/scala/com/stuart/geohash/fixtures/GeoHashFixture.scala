@@ -1,18 +1,12 @@
 package com.stuart.geohash.fixtures
 
 import cats.effect.{IO, Resource}
-import com.stuart.geohash.application.dto.geohash.GeoHashDTO
-import com.stuart.geohash.domain.models.geohash.{
-  GeoHash,
-  GeoHashMaxPrecision,
-  GeoPoint,
-  Latitude,
-  Longitude,
-  UniquePrefix
-}
+import com.stuart.geohash.application.services.ImportGeoHash.{BatchResult, ExecutionResult}
+import com.stuart.geohash.domain.models.geohash._
 import com.stuart.geohash.infrastructure.repositories.GeoHashSQL.GeoHashEntity
 
 import java.io.BufferedReader
+import scala.concurrent.duration.FiniteDuration
 
 trait GeoHashFixture {
 
@@ -40,7 +34,7 @@ trait GeoHashFixture {
   lazy val geoHashEntity1 = GeoHashEntity(lat1, lon1, maxPres1, uniquePrefix1)
 
   def mkBufferResource(f: BufferedReader): Resource[IO, BufferedReader] = Resource.make(IO(f))(_ => IO(f.close()))
-  def onBatchFinish(l: List[GeoHashDTO]): IO[Unit]                      = IO.unit
-  def onStart: IO[Unit]                                                 = IO.unit
-  def onFinish: IO[Unit]                                                = IO.unit
+  def onBatchFinish(r: BatchResult): IO[Unit]                           = IO.unit
+  def onStart(fd: FiniteDuration): IO[Unit]                             = IO.unit
+  def onFinish(r: ExecutionResult): IO[Unit]                            = IO.unit
 }

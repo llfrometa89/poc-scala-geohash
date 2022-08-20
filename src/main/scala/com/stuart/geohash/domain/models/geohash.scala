@@ -24,6 +24,9 @@ object geohash {
 
   object GeoHash {
 
+    trait GeoHashError                                extends Exception
+    case class GeoHashExecutionError(message: String) extends GeoHashError
+
     def make[F[_]: Sync: GenGeoHash](geoPoint: GeoPoint, precision: Int): F[GeoHash] =
       for {
         maxPrecisionGeoHash <- GenGeoHash[F].make(geoPoint, MaxPrecision)

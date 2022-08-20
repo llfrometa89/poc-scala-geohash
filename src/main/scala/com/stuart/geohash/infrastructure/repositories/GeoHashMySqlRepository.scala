@@ -2,6 +2,7 @@ package com.stuart.geohash.infrastructure.repositories
 
 import cats.effect.kernel.Async
 import cats.implicits._
+import com.stuart.geohash.domain.models.geohash.GeoHash.GeoHashExecutionError
 import com.stuart.geohash.domain.models.geohash._
 import com.stuart.geohash.domain.repositories.GeoHashRepository
 import com.stuart.geohash.infrastructure.db.client.MySqlClient
@@ -10,16 +11,24 @@ import doobie.ConnectionIO
 import doobie.implicits._
 import doobie.util.transactor.Transactor
 
+import java.sql.SQLIntegrityConstraintViolationException
+
 object GeoHashMySqlRepository {
 
   def make[F[_]: Async](mySqlClient: MySqlClient[F], geoHashSQL: GeoHashSQL): GeoHashRepository[F] =
     new GeoHashRepository[F] {
 
-      def create(geoHash: GeoHash): F[GeoHash] =
-        for {
+      def create(geoHash: GeoHash): F[GeoHash] = {
+        val computation = for {
           ax <- mySqlClient.transactor
           _  <- mkExecute(geoHashSQL.insert(geoHash), ax)
         } yield geoHash
+
+        computation.handleErrorWith {
+          case e: SQLIntegrityConstraintViolationException => Async[F].raiseError(GeoHashExecutionError(e.getMessage))
+          case e                                           => Async[F].raiseError(e)
+        }
+      }
 
       def findBy(geoHashMaxPrecision: GeoHashMaxPrecision): F[Option[GeoHash]] =
         for {

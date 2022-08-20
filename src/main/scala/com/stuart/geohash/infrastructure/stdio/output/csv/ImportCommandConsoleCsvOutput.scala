@@ -16,9 +16,8 @@ object ImportCommandConsoleCsvOutput {
       def show: Show[GeoHashDTO] =
         Show.show(geoHash => s"${geoHash.latitude},${geoHash.longitude},${geoHash.geoHash},${geoHash.uniquePrefix}")
 
-      def printGeoHashes(geoHashes: List[GeoHashDTO]): F[Unit] = for {
-        _ <- Console[F].println("lat,lng,geohash,uniq")
-        _ <- geoHashes.traverse(geoHash => Console[F].println(geoHash)(show))
-      } yield ()
+      def printGeoHashes(geoHashes: List[GeoHashDTO]): F[Unit] =
+        geoHashes.traverse(geoHash => Console[F].println(geoHash)(show)) >> Monad[F].unit
+
     }
 }
