@@ -2,7 +2,7 @@ package com.stuart.geohash.infrastructure.ioc.provider
 
 import cats.effect.Sync
 import cats.effect.std.Console
-import com.stuart.geohash.application.services.ImportGeoHash
+import com.stuart.geohash.application.services.ImportGeoPointsFromFile
 import com.stuart.geohash.infrastructure.stdio.CommandOptions
 import com.stuart.geohash.infrastructure.stdio.commands.{HelpCommand, ImportCommand}
 import com.stuart.geohash.infrastructure.stdio.helpers.CommandLineRunnerHelper
@@ -15,7 +15,7 @@ sealed abstract class Commands[F[_]] private (
 )
 
 object Commands {
-  def make[F[_]: Sync: Console](importGeoHash: ImportGeoHash[F]): Commands[F] = {
+  def make[F[_]: Sync: Console](importGeoPoints: ImportGeoPointsFromFile[F]): Commands[F] = {
 
     val options      = CommandOptions.make[F]()
     val runnerHelper = CommandLineRunnerHelper.make[F](options)
@@ -23,7 +23,7 @@ object Commands {
       importCommand = ImportCommand
         .make[F](
           commandOptions = options,
-          importGeoHash = importGeoHash,
+          importGeoPoints = importGeoPoints,
           consoleOutput = ImportCommandFormatConsoleOutput.make[F],
           runnerHelper
         ),

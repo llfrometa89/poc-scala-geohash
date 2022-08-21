@@ -1,13 +1,10 @@
 # Stuart GeoHash
-The code challenge was very interesting, it helps you open your mind and 
-make decisions thinking to solve current and future problems. For the 
-development of the solution, I have used Scala as the main language, and 
-the [Typelevel](https://typelevel.org/) ecosystem using famous functional 
-libraries in the Scala community like [Cats](https://typelevel.org/cats/),
-and [Cats-Effect 3](https://typelevel.org/cats-effect/docs/getting-started) (aka CE3), 
-among other libraries that work in perfect synergy with CE3. A command line application
-has been developed to support the exercise. You can find more details in the 
-following sections.
+The code challenge was very interesting, it helps you open your mind and make decisions thinking to solve current and
+future problems. For the development of the solution, I have used Scala as the main language, and the [Typelevel](https://typelevel.org/)
+ecosystem using famous functional libraries in the Scala community like [Cats](https://typelevel.org/cats/), 
+and [Cats-Effect 3](https://typelevel.org/cats-effect/docs/getting-started) (aka CE3), among other libraries that work in 
+perfect synergy with CE3. A command line application has been developed to support the exercise. You can find more details
+in the following sections.
 
 ## Table of contents
 - [Requirements](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#requirements)
@@ -29,28 +26,31 @@ following sections.
 ### Requirements
 - Install `sbt` 1.7.x or later. Also, you can use the [sbt-extra](https://raw.githubusercontent.com/dwijnand/sbt-extras/master/sbt) 
   tool present in this repository-e.g `~$ ./sbt compile`
-- Install `java` 11 or later. Yeah, this component is compatible with `Java 17` in the LST version `Eclipse Adoptium Java 17.0.3` 
+- Install `java` 11 or later. Yeah, this component is compatible with `Java 17` in the LTS version `Eclipse Adoptium Java 17.0.3` 
+- Install `docker` 20.10.x or later. Visit the [Install Docker Engine](https://docs.docker.com/engine/install/) page in
+  order to check the `Supported platforms`.
 
 ### Terminology
-- `F[_]` is a functional programming feature called type constructor used in higher kinded type definition.
-  I recommend you check the following [article](https://www.47deg.com/blog/what-is-F-with-hole-in-scala/#what-is-a-type-constructor-_-or-a-higher-kinded-type-2)
-- `Sync`, `Async`, `IO` are Typeclases and data types from Typelevel ecosystem.
-  In case you are not familiar with the Cats-Effect 3 library or have worked with Cats-Effect 2,
-  you may be interested in reviewing the [migration guide](https://typelevel.org/cats-effect/docs/migration-guide) 
+- `F[_]` is a `type parameter` witch is self a `type constructor` used in `higher kinded type` definition. I recommend 
+  you check the following [article](https://www.47deg.com/blog/what-is-F-with-hole-in-scala/#what-is-a-type-constructor-_-or-a-higher-kinded-type-2)
+  in order to enter in deep or refresh the concept.
+- `Sync`, `Async`, `IO` are type classes and data types from Typelevel ecosystem. In case you are not familiar with the 
+  Cats-Effect 3 library or have worked with Cats-Effect 2, you may be interested in reviewing the [migration guide](https://typelevel.org/cats-effect/docs/migration-guide) 
   to establish some concepts included such as `IORuntime` and the new thread model implemented.
+- **Refined types** are types with type-level predicates which constrain the set of values described.
+- Scala `LazyList` is a type that implements an immutable linked list, that means the computes its elements only when 
+  they are needed. [docs](https://www.scala-lang.org/api/2.13.x/scala/collection/immutable/LazyList.html)
 
 ### Solution
-The solution includes some aspects related to the development of software thought
-of maintainability, organization, documentation,  and good test testing that provides
-a plus in the future evolution of the component. I have used an approach oriented 
-to Domain Driven Design, which for the proposed code challenge can be an overhead 
-but it provides some important aspects in terms of organization and maintainability
-of the solution that I wanted to introduce. I have separated the solution in the 
-following layers such as `Domain`, `Application` and `Infrastructure`,
-which I will explain in the **Package structure** section.
+The solution includes some important aspects related to the software development like is of maintainability, organization,
+documentation,  and good test coverage both unit and integration test, which provides a plus in the future evolution of 
+the component. I have used an approach oriented to Domain Driven Design, which for the proposed code challenge can be an
+overhead but it provides some important aspects in terms of organization and maintainability of the solution that I wanted
+to introduce in the solution. I have separated the solution into the following layers such as `Domain`, `Application`and
+`Infrastructure`, which I will explain in the **Package structure** section.
 
 #### Component overview
-- Edit diagram: https://excalidraw.com/#json=fq1H7hGc6nPAZNx-zYdiI,Rib4jbOICSGxQYJnhCQYoA
+- _Edit diagram_: https://excalidraw.com/#json=fq1H7hGc6nPAZNx-zYdiI,Rib4jbOICSGxQYJnhCQYoA
 
 <img style="float: left;" src="images/component_overview.png">
 

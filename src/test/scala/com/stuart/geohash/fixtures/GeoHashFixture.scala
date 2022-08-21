@@ -1,7 +1,7 @@
 package com.stuart.geohash.fixtures
 
 import cats.effect.{IO, Resource}
-import com.stuart.geohash.application.services.ImportGeoHash.{BatchResult, ExecutionResult}
+import com.stuart.geohash.application.services.ImportGeoPointsFromFile.{BatchResult, ExecutionResult}
 import com.stuart.geohash.domain.models.geohash._
 import com.stuart.geohash.infrastructure.repositories.GeoHashSQL.GeoHashEntity
 

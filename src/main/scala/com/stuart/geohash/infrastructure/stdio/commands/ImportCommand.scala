@@ -4,8 +4,8 @@ import cats.effect.std.Console
 import cats.effect.{Clock, Resource, Sync}
 import cats.implicits._
 import com.stuart.geohash.application.dto.geohash.GeoHashDTO
-import com.stuart.geohash.application.services.ImportGeoHash
-import com.stuart.geohash.application.services.ImportGeoHash.{BatchResult, ExecutionResult}
+import com.stuart.geohash.application.services.ImportGeoPointsFromFile
+import com.stuart.geohash.application.services.ImportGeoPointsFromFile.{BatchResult, ExecutionResult}
 import com.stuart.geohash.infrastructure.stdio.helpers.CommandLineRunnerHelper
 import com.stuart.geohash.infrastructure.stdio.output.{CsvFormatConsoleOutput, FormatConsoleOutput}
 import com.stuart.geohash.infrastructure.stdio.output.ImportCommand.ImportCommandFormatConsoleOutput
@@ -25,7 +25,7 @@ object ImportCommand {
 
   def make[F[_]: Sync: Clock: Console](
     commandOptions: CommandOptions[F],
-    importGeoHash: ImportGeoHash[F],
+    importGeoPoints: ImportGeoPointsFromFile[F],
     consoleOutput: ImportCommandFormatConsoleOutput[F],
     commandLineRunnerHelper: CommandLineRunnerHelper[F]
   ): ImportCommand[F] =
@@ -62,7 +62,7 @@ object ImportCommand {
         precision     <- Sync[F].pure(mPrecision.getOrElse(DefaultPrecision))
         onBatchFinish <- Sync[F].pure(onBatchFinish(format) _)
         onStart       <- Sync[F].pure(onStart(format) _)
-        _ <- importGeoHash.importGeoHash(
+        _ <- importGeoPoints.importGeoPoints(
           mkFileResource(filename),
           batch,
           precision,

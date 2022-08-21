@@ -30,7 +30,7 @@ object Main extends IOApp.Simple {
       args <- Console[F].readLine
       repositories = Repositories.make[F](resources.mysql)
       services     = Services.make[F](repositories)
-      commands     = Commands.make(services.importGeoHash)
+      commands     = Commands.make(services.importGeoPoints)
       factory      = CommandFactory.make(commands)
       argAsArray   = args.toArrayBySpace
       command <- factory.getCommand(argAsArray)

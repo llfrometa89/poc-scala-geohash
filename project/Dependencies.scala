@@ -1,4 +1,3 @@
-import Dependencies.Libraries.{ciris, testContainerScalaScalatest}
 import sbt._
 
 object Dependencies {

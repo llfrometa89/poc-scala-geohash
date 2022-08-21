@@ -11,14 +11,14 @@ import com.stuart.geohash.fixtures.GeoHashFixture
 
 import java.io.BufferedReader
 
-class ImportGeoHashSpec extends UnitSpec with GeoHashFixture {
+class ImportGeoPointsFromFileSpec extends UnitSpec with GeoHashFixture {
 
   "import GeoPoint and convert to GeoHash" should "store all GeoHashes when they are not store" in {
 
     implicit val genGeoHash: GenGeoHash[IO]  = mock[GenGeoHash[IO]]
     val loader: GeoPointLoader[IO]           = mock[GeoPointLoader[IO]]
     val geoHashRegister: GeoHashRegister[IO] = mock[GeoHashRegister[IO]]
-    val stub: ImportGeoHash[IO]              = ImportGeoHash.make(loader, geoHashRegister)
+    val stub: ImportGeoPointsFromFile[IO]    = ImportGeoPointsFromFile.make(loader, geoHashRegister)
     val bufferedReader: BufferedReader       = mock[BufferedReader]
     val bufferResource                       = mkBufferResource(bufferedReader)
 
@@ -30,7 +30,7 @@ class ImportGeoHashSpec extends UnitSpec with GeoHashFixture {
     when(geoHashRegister.register(geoHash2)).thenReturn(IO.unit)
     when(loader.load(bufferedReader, batchSize, LazyList.empty[String])).thenReturn(IO(LazyList(line1, line2)))
 
-    stub.importGeoHash(bufferResource, batchSize, precision, onBatchFinish, onStart, onFinish).unsafeRunSync()
+    stub.importGeoPoints(bufferResource, batchSize, precision, onBatchFinish, onStart, onFinish).unsafeRunSync()
 
     verify(genGeoHash).make(GeoPoint(Latitude(lat1), Longitude(lon1)), 12)
     verify(genGeoHash).make(GeoPoint(Latitude(lat1), Longitude(lon1)), precision)
@@ -44,7 +44,7 @@ class ImportGeoHashSpec extends UnitSpec with GeoHashFixture {
     implicit val genGeoHash: GenGeoHash[IO]  = mock[GenGeoHash[IO]]
     val loader: GeoPointLoader[IO]           = mock[GeoPointLoader[IO]]
     val geoHashRegister: GeoHashRegister[IO] = mock[GeoHashRegister[IO]]
-    val stub: ImportGeoHash[IO]              = ImportGeoHash.make(loader, geoHashRegister)
+    val stub: ImportGeoPointsFromFile[IO]    = ImportGeoPointsFromFile.make(loader, geoHashRegister)
     val bufferedReader: BufferedReader       = mock[BufferedReader]
     val bufferResource                       = mkBufferResource(bufferedReader)
 
@@ -56,7 +56,7 @@ class ImportGeoHashSpec extends UnitSpec with GeoHashFixture {
     when(geoHashRegister.register(geoHash1)).thenReturn(IO.unit)
     when(geoHashRegister.register(geoHash2)).thenReturn(IO.unit)
 
-    stub.importGeoHash(bufferResource, batchSize, precision, onBatchFinish, onStart, onFinish).unsafeRunSync()
+    stub.importGeoPoints(bufferResource, batchSize, precision, onBatchFinish, onStart, onFinish).unsafeRunSync()
 
     verify(genGeoHash).make(GeoPoint(Latitude(lat1), Longitude(lon1)), 12)
     verify(genGeoHash).make(GeoPoint(Latitude(lat1), Longitude(lon1)), precision)
@@ -71,14 +71,14 @@ class ImportGeoHashSpec extends UnitSpec with GeoHashFixture {
     implicit val genGeoHash: GenGeoHash[IO]  = mock[GenGeoHash[IO]]
     val loader: GeoPointLoader[IO]           = mock[GeoPointLoader[IO]]
     val geoHashRegister: GeoHashRegister[IO] = mock[GeoHashRegister[IO]]
-    val stub: ImportGeoHash[IO]              = ImportGeoHash.make(loader, geoHashRegister)
+    val stub: ImportGeoPointsFromFile[IO]    = ImportGeoPointsFromFile.make(loader, geoHashRegister)
     val bufferedReader: BufferedReader       = mock[BufferedReader]
     val bufferResource                       = mkBufferResource(bufferedReader)
 
     when(loader.load(bufferedReader, batchSize, LazyList.empty[String])).thenReturn(IO(LazyList("unknown,unknown")))
 
     assertThrows[NumberFormatException] {
-      stub.importGeoHash(bufferResource, batchSize, precision, onBatchFinish, onStart, onFinish).unsafeRunSync()
+      stub.importGeoPoints(bufferResource, batchSize, precision, onBatchFinish, onStart, onFinish).unsafeRunSync()
     }
 
     verify(loader).load(bufferedReader, batchSize, LazyList.empty[String])
@@ -88,14 +88,14 @@ class ImportGeoHashSpec extends UnitSpec with GeoHashFixture {
     implicit val genGeoHash: GenGeoHash[IO]  = mock[GenGeoHash[IO]]
     val loader: GeoPointLoader[IO]           = mock[GeoPointLoader[IO]]
     val geoHashRegister: GeoHashRegister[IO] = mock[GeoHashRegister[IO]]
-    val stub: ImportGeoHash[IO]              = ImportGeoHash.make(loader, geoHashRegister)
+    val stub: ImportGeoPointsFromFile[IO]    = ImportGeoPointsFromFile.make(loader, geoHashRegister)
     val bufferedReader: BufferedReader       = mock[BufferedReader]
     val bufferResource                       = mkBufferResource(bufferedReader)
 
     when(loader.load(bufferedReader, batchSize, LazyList.empty[String])).thenReturn(IO(LazyList("30000,30000")))
 
     assertThrows[GeoPointConversionError] {
-      stub.importGeoHash(bufferResource, batchSize, precision, onBatchFinish, onStart, onFinish).unsafeRunSync()
+      stub.importGeoPoints(bufferResource, batchSize, precision, onBatchFinish, onStart, onFinish).unsafeRunSync()
     }
 
   }

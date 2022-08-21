@@ -5,13 +5,12 @@ import cats.effect.unsafe.implicits.global
 import com.stuart.IntegrationSpec
 import com.stuart.fixtures.GeoHashFixtureIT
 import com.stuart.geohash.application.dto.geohash.{GeoPointConversionError, InvalidArrayConversionError}
-import com.stuart.geohash.application.services.ImportGeoHash
+import com.stuart.geohash.application.services.ImportGeoPointsFromFile
 import com.stuart.geohash.cross.implicits._
 import com.stuart.geohash.domain.repositories.GeoHashRepository
 import com.stuart.geohash.domain.services.GeoHashRegister
 import com.stuart.geohash.infrastructure.repositories.{GeoHashMySqlRepository, GeoHashSQL}
 import com.stuart.geohash.infrastructure.services.GeoPointLoader
-import com.stuart.geohash.infrastructure.stdio.Command.InvalidArguments
 import com.stuart.geohash.infrastructure.stdio.CommandOptions
 import com.stuart.geohash.infrastructure.stdio.commands.ImportCommand
 import com.stuart.geohash.infrastructure.stdio.helpers.CommandLineRunnerHelper
@@ -72,10 +71,10 @@ class ImportCommandITSpec extends IntegrationSpec with GeoHashFixtureIT {
     loader                  <- IO.pure(GeoPointLoader.make[IO]())
     geoHashRegister         <- IO.pure(GeoHashRegister.make(geoHashRepository))
     commandOptions          <- IO.pure(CommandOptions.make[IO]())
-    importGeoHash           <- IO.pure(ImportGeoHash.make[IO](loader, geoHashRegister))
+    importGeoPoints         <- IO.pure(ImportGeoPointsFromFile.make[IO](loader, geoHashRegister))
     consoleOutput           <- IO.pure(ImportCommandFormatConsoleOutput.make[IO])
     commandLineRunnerHelper <- IO.pure(CommandLineRunnerHelper.make[IO](commandOptions))
-    command <- IO.pure(ImportCommand.make[IO](commandOptions, importGeoHash, consoleOutput, commandLineRunnerHelper))
+    command <- IO.pure(ImportCommand.make[IO](commandOptions, importGeoPoints, consoleOutput, commandLineRunnerHelper))
   } yield command
 
   def getRepository: IO[GeoHashRepository[IO]] = for {

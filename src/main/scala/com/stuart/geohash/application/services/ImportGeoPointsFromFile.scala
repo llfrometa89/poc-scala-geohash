@@ -4,7 +4,7 @@ import cats.Parallel
 import cats.effect.{Clock, Resource, Sync}
 import cats.implicits._
 import com.stuart.geohash.application.dto.geohash._
-import com.stuart.geohash.application.services.ImportGeoHash.{BatchResult, ExecutionResult}
+import com.stuart.geohash.application.services.ImportGeoPointsFromFile.{BatchResult, ExecutionResult}
 import com.stuart.geohash.cross.GenGeoHash
 import com.stuart.geohash.domain.models.geohash.GeoHash
 import com.stuart.geohash.domain.services.{GeoHashRegister, GeoPointLoader}
@@ -12,9 +12,9 @@ import com.stuart.geohash.domain.services.{GeoHashRegister, GeoPointLoader}
 import java.io.BufferedReader
 import scala.concurrent.duration.FiniteDuration
 
-trait ImportGeoHash[F[_]] {
+trait ImportGeoPointsFromFile[F[_]] {
 
-  def importGeoHash(
+  def importGeoPoints(
     file: Resource[F, BufferedReader],
     batch: Int,
     precision: Int,
@@ -24,14 +24,14 @@ trait ImportGeoHash[F[_]] {
   ): F[Unit]
 }
 
-object ImportGeoHash {
+object ImportGeoPointsFromFile {
 
   def make[F[_]: Sync: Clock: Parallel: GenGeoHash](
     loader: GeoPointLoader[F],
     geoHashRegister: GeoHashRegister[F]
-  ): ImportGeoHash[F] = new ImportGeoHash[F] {
+  ): ImportGeoPointsFromFile[F] = new ImportGeoPointsFromFile[F] {
 
-    def importGeoHash(
+    def importGeoPoints(
       file: Resource[F, BufferedReader],
       batchSize: Int,
       precision: Int,
