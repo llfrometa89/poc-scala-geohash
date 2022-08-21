@@ -13,6 +13,7 @@ in the following sections.
   - [Package structure](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#package-structure)
   - [Libraries](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#libraries)
   - [Parallelization](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#parallelization)
+  - [Implemented algorithm](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#implemented-algorithm)
 - [Architecture Decision Records](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#architecture-decision-records)
 - [Checking code format](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#checking-code-format)
 - [Testing](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#testing)
@@ -50,7 +51,6 @@ to introduce in the solution. I have separated the solution into the following l
 `Infrastructure`, which I will explain in the **Package structure** section.
 
 #### Component overview
-- _Edit diagram_: https://excalidraw.com/#json=fq1H7hGc6nPAZNx-zYdiI,Rib4jbOICSGxQYJnhCQYoA
 
 <img style="float: left;" src="images/component_overview.png">
 
@@ -67,7 +67,7 @@ The package structure follows the market standard based on Domain Driven Develop
 │   └── configuration       
 │   ├── db                  
 │       ├── client          # Data access
-│       └── liquibase       # Database version control for your database
+│       └── liquibase       # Database version control
 │   ├── repositories        # Repository implementation
 │   ├── ioc                 
 │       └── providers       # Dependency injection 
@@ -99,6 +99,17 @@ It makes use of a simple Fibers model where you have physical and virtual thread
 In the following link you will find valuable information about this topic.
 - [Concurrency in Cats Effect 3](https://typelevel.org/blog/2020/10/30/concurrency-in-ce3.html)
 - [Why are Fibers fast?](https://typelevel.org/blog/2021/02/21/fibers-fast-mkay.html)
+
+##### Implemented algorithm
+
+<img style="float: left;" src="images/Implemented_algorithm.png">
+
+- **Load file**: Load files in batch defined by `batchSize` into `LazyList` structure. You can find more information here 
+  regarding [LazyList](https://www.scala-lang.org/api/2.13.x/scala/collection/immutable/LazyList.html). The file should be 
+  in csv format. -e.g like `test_geopoints.txt` file.
+- **Filter duplicated geopoints**: This step allows filtering duplicate lines to improve database performance access.
+- **Process geopoints in batch**: Here the algorithm is using the `Parallel` type class and `.parTraverse_` method
+  to save the GeoHash into the database.
 
 For the solution I have used the type class [Parallel](https://typelevel.org/cats/typeclasses/parallel.html), `cats.Parallel`,
 and the `.parTraverse_` method. I am using the Thread pool created by `IORuntime` instance the `IOApp` main class. The command line

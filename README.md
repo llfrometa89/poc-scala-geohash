@@ -40,6 +40,7 @@ Here is a brief preview of what you will find on the [Solution](docs/Solution.md
   - [Package structure](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#package-structure)
   - [Libraries](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#libraries)
   - [Parallelization](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#parallelization)
+  - [Implemented algorithm](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#implemented-algorithm)
 - [Architecture Decision Records](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#architecture-decision-records)
 - [Checking code format](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#checking-code-format)
 - [Testing](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#testing)
