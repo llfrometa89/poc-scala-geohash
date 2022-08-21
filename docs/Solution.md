@@ -209,7 +209,8 @@ usage: geohashcli [command] [options] [target [target2 [target3] ...]]
 ```
 #### Running
 After **Building** step you has available the executable in `target/universal/stage`.
-Then export the variables present in `.env` file.
+Then export the variables present in `.env` file. For didactic purposes,
+this is made available but in a real application THIS SHOULD NEVER BE MADE PUBLIC.
 ```sh
 export DB_MYSQL_JDBC_URL=[DB_MYSQL_JDBC_URL]
 export DB_MYSQL_USER=[DB_MYSQL_USER]
@@ -235,9 +236,6 @@ usage: geohashcli [command] [options] [target [target2 [target3] ...]]
  -p,--precision <arg>   Allow to set geohash precision
 ```
 **Note**: All initialize structure like database structure are manage by the [Liquibase](https://www.liquibase.org/) dependency 
-
-#### How do it look like?
-<img style="float: left;" src="images/geohashcli.png">
 
 ### Supporting IntelliJ IDEA
 The requeded `env` variables should be found in `.env` file. For didactic purposes, 
