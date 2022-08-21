@@ -8,9 +8,8 @@ import com.stuart.geohash.application.dto.geohash.{GeoPointConversionError, Inva
 import com.stuart.geohash.application.services.ImportGeoPointsFromFile
 import com.stuart.geohash.cross.implicits._
 import com.stuart.geohash.domain.repositories.GeoHashRepository
-import com.stuart.geohash.domain.services.GeoHashRegister
+import com.stuart.geohash.domain.services.{GeoHashRegister, GeoPointLoader}
 import com.stuart.geohash.infrastructure.repositories.{GeoHashMySqlRepository, GeoHashSQL}
-import com.stuart.geohash.infrastructure.services.GeoPointLoader
 import com.stuart.geohash.infrastructure.stdio.CommandOptions
 import com.stuart.geohash.infrastructure.stdio.commands.ImportCommand
 import com.stuart.geohash.infrastructure.stdio.helpers.CommandLineRunnerHelper

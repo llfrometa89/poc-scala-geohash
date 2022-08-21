@@ -3,8 +3,7 @@ package com.stuart.geohash.infrastructure.ioc.provider
 import cats.Parallel
 import cats.effect.Sync
 import com.stuart.geohash.application.services.ImportGeoPointsFromFile
-import com.stuart.geohash.domain.services.GeoHashRegister
-import com.stuart.geohash.infrastructure.services.GeoPointLoader
+import com.stuart.geohash.domain.services.{GeoHashRegister, GeoPointLoader}
 
 sealed abstract class Services[F[_]] private (
   val importGeoPoints: ImportGeoPointsFromFile[F],

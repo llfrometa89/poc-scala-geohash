@@ -84,6 +84,7 @@ object ImportCommand {
         _ <- Console[F].println(s"Finish time: ${result.finishTime.formatDateTime}")
         _ <- Console[F].println(s"Total lines: ${result.totalLines}")
         _ <- Console[F].println(s"Number of lines to process: ${result.totalToProcessLines}")
+        _ <- Console[F].println(s"Duplicated lines: ${result.duplicatedLines}")
         _ <- Console[F].println(s"Count of batches: ${result.countOfBatches}")
         _ <- Console[F].println(s"Batch size: ${result.batchSize}")
         _ <- Console[F].println(s"Total execution time: ${(result.startTime, result.finishTime).elapsedTime}")

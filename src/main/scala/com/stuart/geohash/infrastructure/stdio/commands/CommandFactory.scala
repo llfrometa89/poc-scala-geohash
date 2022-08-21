@@ -31,7 +31,7 @@ object CommandFactory {
         command        <- availableCommands.get(commandKeyword).liftTo[F](CommandNotAvailable(commandKeyword))
       } yield command
 
-      private def printHelp =
+      private def printHelp: F[Unit] =
         command.runnerHelper.printHelp
     }
 }

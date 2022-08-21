@@ -1,4 +1,4 @@
-package com.stuart.geohash.infrastructure.services
+package com.stuart.geohash.domain.services
 
 import cats.effect.IO
 import com.stuart.geohash.UnitSpec

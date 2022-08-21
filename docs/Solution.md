@@ -17,7 +17,7 @@ in the following sections.
 - [Architecture Decision Records](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#architecture-decision-records)
 - [Checking code format](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#checking-code-format)
 - [Testing](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#testing)
-- [Building](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#building)
+- [Building and packaging](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#building-and-packaging)
 - [Running Stuart GeoHash CLI](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#running-stuart-geohash-cli)
 - [Supporting IntelliJ IDEA](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#running-stuart-geohash-cli)
 - [Known issue](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#known-issue)
@@ -30,6 +30,7 @@ in the following sections.
 - Install `java` 11 or later. Yeah, this component is compatible with `Java 17` in the LTS version `Eclipse Adoptium Java 17.0.3` 
 - Install `docker` 20.10.x or later. Visit the [Install Docker Engine](https://docs.docker.com/engine/install/) page in
   order to check the `Supported platforms`.
+- Install MySQL server version 8.x.x or later
 
 ### Terminology
 - `F[_]` is a `type parameter` witch is self a `type constructor` used in `higher kinded type` definition. I recommend 
@@ -140,6 +141,7 @@ Start time: 2022-08-20T03:56:58.652
 Finish time: 2022-08-20T04:06:36.319
 Total lines: 100000
 Number of lines to process: 93625
+Duplicated lines: 6375
 Count of batches: 188
 Batch size: 500
 Total execution time: 9min
@@ -148,24 +150,28 @@ Count of errors: 3
 ```
 
 ### Architecture Decision Records
-An Architecture Decision Record (ADR) is a document that captures a decision, including the context of how the decision
-was made and the consequences of adopting the decision. You can find the ADR to answer some questions about the solution
-in the following document.
+An Architecture Decision Record (ADR) is a document that captures a decision, including the context, decisions and the 
+consequences of adopting the decision. This is the way that I propose to keep the light(KLO)  the component, and its 
+future evolution in terms of architecture. That is a good way to provide context to the current and future members and 
+make easy onboarding and take future decisions. Then raise your hand and find a consensus in the team and required persons.
 
 #### How do you can contribute to create ADRs?
 - It's simple, please copy/paste the defined [template](adrs/template.md) and complete the sections.
+
 #### ADRs (examples)
 - [Initial Stuart GeoHash CLI tool definition](adrs/1.initial-component-definition.md)
 - [Choose mysql as main storage](adrs/2.choose-mysql-as-main-database.md)
 - [Introduce a Kafka message broker](adrs/3.introduce-a-kafka-message-broker.md)
 
 ### Checking code format
+I am using `scalafmt` sbt plugin to keep the same code style among all contributors. You can find more information in the
+[official documentation](https://scalameta.org/scalafmt/docs/installation.html).
   ```sh
 ./sbt scalafmtSbtCheck scalafmtCheckAll
 ```
 ### Testing
-> Note that, thanks to test-containers, you don't need any infrastructure component to run integration test on
-> your local environment
+> Note that, thanks to testcontainers, you don't need any infrastructure component to run integration test on your local 
+> environment.
 
 #### To run Unit Tests execute:
 ```sh
@@ -181,7 +187,7 @@ in the following document.
 ```
 More information related to this topic, check the [official documentation](https://github.com/scoverage/sbt-scoverage)
 
-### Building
+### Building and packaging
 ```sh
 ./sbt stage
 ```
@@ -192,10 +198,10 @@ you can find the executable in the following path `target/universal/stage/bin/ge
 ```sh
 $ geohashcli import --file=test_points.txt --precision=5 --batch=500 --format=csv
 ```
-- `file` filename of the file in `csv` format
-- `precision` = ... `5` to `12` is the value to set in the geohash generation process. 
-- `format` = `json` | `csv`.It's means the console output int this iteration.
-- `batch` batch size
+- `--file` filename of the file in `csv` format
+- `--precision` = ... `5` to `12` is the value to set in the geohash generation process. 
+- `--format` = `json` | `csv`.It's means the console output int this iteration.
+- `--batch` batch size
 #### Help command
 ```sh
 $ geohashcli --help
@@ -208,7 +214,11 @@ usage: geohashcli [command] [options] [target [target2 [target3] ...]]
  -p,--precision <arg>   Allow to set geohash precision
 ```
 #### Running
-After **Building** step you has available the executable in `target/universal/stage`.
+> Keep in mind you need a MySQL server running before run the Stuart GeoHash CLI. 
+> You can use the following on-demand docker to didactic purpose:
+> `docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3315:3306 -d mysql:8.0.30`
+
+After **Building and packaging** step you has available the executable in `target/universal/stage`.
 Then export the variables present in `.env` file. For didactic purposes,
 this is made available but in a real application THIS SHOULD NEVER BE MADE PUBLIC.
 ```sh
@@ -238,7 +248,7 @@ usage: geohashcli [command] [options] [target [target2 [target3] ...]]
 **Note**: All initialize structure like database structure are manage by the [Liquibase](https://www.liquibase.org/) dependency 
 
 ### Supporting IntelliJ IDEA
-The requeded `env` variables should be found in `.env` file. For didactic purposes, 
+The required `env` variables should be found in `.env` file. For didactic purposes, 
 this is made available but in a real application THIS SHOULD NEVER BE MADE PUBLIC.
 You should configure the `env` variables in IntelliJ IDEA for running and debugging mode.
 In other case the application won't execute.
@@ -260,6 +270,8 @@ I tried to control the log level in the `logback.yml` file but the message conti
 version should be fixed.
 
 ### How to contribute
+This is the way that I propose to contribute to the project code and its future evolution. It's just an example but 
+its should be a team agreement.
 - For major or architectural contributions, please contact the domain team in order to set an agreement.
 - For minor contributions, just open a pull request from your feature branch to master and wait for 
   2 approvals from the code owners.
