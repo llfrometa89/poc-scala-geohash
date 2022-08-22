@@ -12,8 +12,8 @@ class ImportGeoPointDtoSpec extends UnitSpec with GeoHashFixture {
   "convert to GeoHash" should "return valid GeoPoint refined object" in {
 
     val computation = for {
-      lat1R <- IO.fromEither(GeoPointRefined.fromDouble(lat1))
-      lon1  <- IO.fromEither(GeoPointRefined.fromDouble(lon1))
+      lat1R <- IO.fromEither(GeoPointRefined.fromLatitudeAsDouble(lat1))
+      lon1  <- IO.fromEither(GeoPointRefined.fromLongitudeAsDouble(lon1))
     } yield ImportGeoPointDTO(lat1R, lon1).toGeoPoint
 
     val result = computation.unsafeRunSync()

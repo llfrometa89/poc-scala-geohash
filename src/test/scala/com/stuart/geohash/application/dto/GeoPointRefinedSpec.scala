@@ -8,13 +8,25 @@ import com.stuart.geohash.fixtures.GeoHashFixture
 
 class GeoPointRefinedSpec extends UnitSpec with GeoHashFixture {
 
-  "refine double value" should "return refined value" in {
-    val computation = IO.fromEither(GeoPointRefined.fromDouble(90L))
+  "refine latitude double value" should "return refined value" in {
+    val computation = IO.fromEither(GeoPointRefined.fromLatitudeAsDouble(90L))
     val result      = computation.unsafeRunSync()
     result.value shouldBe 90L
   }
   it should "return an conversion error when the latitude or longitude are invalid" in {
-    val computation = IO.fromEither(GeoPointRefined.fromDouble(3000L))
+    val computation = IO.fromEither(GeoPointRefined.fromLatitudeAsDouble(3000L))
+    assertThrows[GeoPointConversionError] {
+      computation.unsafeRunSync()
+    }
+  }
+
+  "refine longitude double value" should "return refined value" in {
+    val computation = IO.fromEither(GeoPointRefined.fromLongitudeAsDouble(140L))
+    val result      = computation.unsafeRunSync()
+    result.value shouldBe 140L
+  }
+  it should "return an conversion error when the latitude or longitude are invalid" in {
+    val computation = IO.fromEither(GeoPointRefined.fromLongitudeAsDouble(3000L))
     assertThrows[GeoPointConversionError] {
       computation.unsafeRunSync()
     }

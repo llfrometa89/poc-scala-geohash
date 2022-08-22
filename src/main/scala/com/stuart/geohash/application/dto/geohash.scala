@@ -12,14 +12,18 @@ import io.circe.{Decoder, Encoder}
 
 object geohash {
 
-  type GeoPointPred = Interval.Closed[W.`-90.0d`.T, W.`90.0d`.T]
-  type Latitude     = Double Refined GeoPointPred
-  type Longitude    = Double Refined GeoPointPred
+  type LatPred   = Interval.Closed[W.`-90.0d`.T, W.`90.0d`.T]
+  type LongPred  = Interval.Closed[W.`-180.0d`.T, W.`180.0d`.T]
+  type Latitude  = Double Refined LatPred
+  type Longitude = Double Refined LongPred
 
   object GeoPointRefined {
 
-    def fromDouble(value: Double): Either[GeoPointError, Refined[Double, GeoPointPred]] =
-      refineV[GeoPointPred](value).leftMap(GeoPointConversionError)
+    def fromLatitudeAsDouble(value: Double): Either[GeoPointError, Refined[Double, LatPred]] =
+      refineV[LatPred](value).leftMap(GeoPointConversionError)
+
+    def fromLongitudeAsDouble(value: Double): Either[GeoPointError, Refined[Double, LongPred]] =
+      refineV[LongPred](value).leftMap(GeoPointConversionError)
 
     def fromLine[F[_]: Sync](line: String): F[ImportGeoPointDTO] =
       for {
@@ -31,8 +35,8 @@ object geohash {
       _                 <- Sync[F].whenA(values.size < 2)(Sync[F].raiseError(InvalidArrayConversionError))
       latitudeAsDouble  <- Sync[F].delay(values(0).toDouble)
       longitudeAsDouble <- Sync[F].delay(values(1).toDouble)
-      latitude          <- Sync[F].fromEither(fromDouble(latitudeAsDouble))
-      longitude         <- Sync[F].fromEither(fromDouble(longitudeAsDouble))
+      latitude          <- Sync[F].fromEither(fromLatitudeAsDouble(latitudeAsDouble))
+      longitude         <- Sync[F].fromEither(fromLongitudeAsDouble(longitudeAsDouble))
     } yield ImportGeoPointDTO(latitude, longitude)
   }
 
