@@ -7,21 +7,21 @@ perfect synergy with CE3. A command line application has been developed to suppo
 in the following sections.
 
 ## Table of contents
-- [Requirements](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#requirements)
-- [Terminology](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#terminology)
-- [Solution](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#solution)
-  - [Package structure](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#package-structure)
-  - [Libraries](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#libraries)
-  - [Parallelization](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#parallelization)
-  - [Implemented algorithm](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#implemented-algorithm)
-- [Architecture Decision Records](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#architecture-decision-records)
-- [Checking code format](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#checking-code-format)
-- [Testing](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#testing)
-- [Building and packaging](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#building-and-packaging)
-- [Running Stuart GeoHash CLI](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#running-stuart-geohash-cli)
-- [Supporting IntelliJ IDEA](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#running-stuart-geohash-cli)
-- [Known issue](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#known-issue)
-- [How to contribute](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#how-to-contribute)
+- [Requirements](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#requirements)
+- [Terminology](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#terminology)
+- [Solution](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#solution)
+  - [Package structure](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#package-structure)
+  - [Libraries](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#libraries)
+  - [Parallelization](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#parallelization)
+  - [Implemented algorithm](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#implemented-algorithm)
+- [Architecture Decision Records](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#architecture-decision-records)
+- [Checking code format](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#checking-code-format)
+- [Testing](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#testing)
+- [Building and packaging](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#building-and-packaging)
+- [Running Stuart GeoHash CLI](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#running-stuart-geohash-cli)
+- [Supporting IntelliJ IDEA](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#running-stuart-geohash-cli)
+- [Known issue](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#known-issue)
+- [How to contribute](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#how-to-contribute)
 
 
 ### Requirements

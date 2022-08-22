@@ -9,7 +9,7 @@ Your task is to transform the set of longitude, latitude coordinates provided in
 |41.390853       | 2.138177        | sp3e2wuzpnhr | sp3e2wuz      |
 
 So for the set of points in `test_points.txt.gz` provide the precomputed unique_prefix each point belongs to.
-
+z
 The solution must be coded in `Scala` or `Java` and you can use any public domain libraries. It should work with any unseen file respecting the same schema than the ones provided. The executable must output in stdout the solution in csv format with 4 columns following the structure of the example, ie:
 
 ```csv
@@ -34,21 +34,21 @@ You can find the detailed description of the developed solution on the Solution 
 Here is a brief preview of what you will find on the [Solution](docs/Solution.md) page.
 
 ### :arrow_right: Table of contents
-- [Requirements](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#requirements)
-- [Terminology](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#terminology)
-- [Solution](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#solution)
-  - [Package structure](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#package-structure)
-  - [Libraries](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#libraries)
-  - [Parallelization](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#parallelization)
-  - [Implemented algorithm](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#implemented-algorithm)
-- [Architecture Decision Records](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#architecture-decision-records)
-- [Checking code format](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#checking-code-format)
-- [Testing](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#testing)
-- [Building and packaging](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#building-and-packaging)
-- [Running Stuart GeoHash CLI](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#running-stuart-geohash-cli)
-- [Supporting IntelliJ IDEA](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#running-stuart-geohash-cli)
-- [Known issue](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#known-issue)
-- [How to contribute](https://github.com/StuartHiring/scala-test-llfrometa89/blob/master/docs/Solution.md#how-to-contribute)
+- [Requirements](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#requirements)
+- [Terminology](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#terminology)
+- [Solution](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#solution)
+  - [Package structure](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#package-structure)
+  - [Libraries](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#libraries)
+  - [Parallelization](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#parallelization)
+  - [Implemented algorithm](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#implemented-algorithm)
+- [Architecture Decision Records](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#architecture-decision-records)
+- [Checking code format](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#checking-code-format)
+- [Testing](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#testing)
+- [Building and packaging](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#building-and-packaging)
+- [Running Stuart GeoHash CLI](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#running-stuart-geohash-cli)
+- [Supporting IntelliJ IDEA](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#running-stuart-geohash-cli)
+- [Known issue](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#known-issue)
+- [How to contribute](https://github.com/llfrometa89/poc-scala-geohash/blob/master/docs/Solution.md#how-to-contribute)
 
 ### :clapper: Spoiler alert!
 Here is a first look at what the developed command line application looks like.
