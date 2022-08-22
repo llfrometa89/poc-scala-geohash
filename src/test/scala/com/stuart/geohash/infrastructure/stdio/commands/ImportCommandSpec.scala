@@ -9,7 +9,7 @@ import com.stuart.geohash.fixtures.{CommandFixture, GeoHashFixture}
 import com.stuart.geohash.infrastructure.stdio.helpers.CommandLineRunnerHelper
 import com.stuart.geohash.infrastructure.stdio.output.ImportCommand.ImportCommandFormatConsoleOutput
 import com.stuart.geohash.infrastructure.stdio.{CommandOptions, CommandOptionsKeyword}
-import org.apache.commons.cli._
+import org.apache.commons.cli.{CommandLine, CommandLineParser, DefaultParser, Options, ParseException}
 
 import java.io.BufferedReader
 import scala.concurrent.duration.FiniteDuration
@@ -39,7 +39,7 @@ class ImportCommandSpec extends UnitSpec with GeoHashFixture with CommandFixture
       importGeoPoints.importGeoPoints(
         any[Resource[IO, BufferedReader]],
         any[Int],
-        any[Int],
+        any[Option[Int]],
         any[BatchResult => IO[Unit]],
         any[FiniteDuration => IO[Unit]],
         any[ExecutionResult => IO[Unit]]
@@ -60,7 +60,7 @@ class ImportCommandSpec extends UnitSpec with GeoHashFixture with CommandFixture
     verify(importGeoPoints).importGeoPoints(
       any[Resource[IO, BufferedReader]],
       any[Int],
-      any[Int],
+      any[Option[Int]],
       any[BatchResult => IO[Unit]],
       any[FiniteDuration => IO[Unit]],
       any[ExecutionResult => IO[Unit]]

@@ -31,8 +31,7 @@ object ImportCommand {
   ): ImportCommand[F] =
     new ImportCommand[F] {
 
-      final val DefaultBatch     = 100
-      final val DefaultPrecision = 5
+      final val DefaultBatch = 100
 
       def run(args: Array[String]): F[Unit] = for {
         parser  <- commandLineRunnerHelper.parser
@@ -56,10 +55,9 @@ object ImportCommand {
       private def mkImport(cmd: CommandLine): F[Unit] = for {
         filename      <- Sync[F].delay(cmd.getOptionValue(CommandOptionsKeyword.file))
         mBatch        <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.batch)).map(_.toInt))
-        mPrecision    <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.precision)).map(_.toInt))
+        precision     <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.precision)).map(_.toInt))
         format        <- Sync[F].delay(Option(cmd.getOptionValue(CommandOptionsKeyword.format)))
         batch         <- Sync[F].pure(mBatch.getOrElse(DefaultBatch))
-        precision     <- Sync[F].pure(mPrecision.getOrElse(DefaultPrecision))
         onBatchFinish <- Sync[F].pure(onBatchFinish(format) _)
         onStart       <- Sync[F].pure(onStart(format) _)
         _ <- importGeoPoints.importGeoPoints(

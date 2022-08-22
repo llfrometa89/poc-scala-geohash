@@ -2,6 +2,7 @@ package com.stuart.geohash.fixtures
 
 import cats.effect.{IO, Resource}
 import com.stuart.geohash.application.services.ImportGeoPointsFromFile.{BatchResult, ExecutionResult}
+import com.stuart.geohash.domain.models.geohash
 import com.stuart.geohash.domain.models.geohash._
 import com.stuart.geohash.infrastructure.repositories.GeoHashSQL.GeoHashEntity
 
@@ -9,6 +10,8 @@ import java.io.BufferedReader
 import scala.concurrent.duration.FiniteDuration
 
 trait GeoHashFixture {
+
+  val maxPresValue = Some(geohash.MaxPrecision)
 
   val lat1          = 41.388828145321
   val lon1          = 2.1689976634898
@@ -21,7 +24,7 @@ trait GeoHashFixture {
   val uniquePrefix2 = "sp3e3"
 
   val batchSize = 2
-  val precision = 5
+  val precision = Some(5)
   val line1     = "41.388828145321,2.1689976634898"
   val line2     = "41.390743,2.1647467"
 

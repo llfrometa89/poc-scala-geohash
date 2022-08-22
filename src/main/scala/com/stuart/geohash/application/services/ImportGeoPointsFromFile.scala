@@ -17,7 +17,7 @@ trait ImportGeoPointsFromFile[F[_]] {
   def importGeoPoints(
     file: Resource[F, BufferedReader],
     batch: Int,
-    precision: Int,
+    precision: Option[Int],
     onBatchFinish: BatchResult => F[Unit],
     onStart: FiniteDuration => F[Unit],
     onFinish: ExecutionResult => F[Unit]
@@ -34,7 +34,7 @@ object ImportGeoPointsFromFile {
     def importGeoPoints(
       file: Resource[F, BufferedReader],
       batchSize: Int,
-      precision: Int,
+      precision: Option[Int],
       onBatchFinish: BatchResult => F[Unit],
       onStart: FiniteDuration => F[Unit],
       onFinish: ExecutionResult => F[Unit]
