@@ -199,7 +199,7 @@ you can find the executable in the following path `target/universal/stage/bin/ge
 $ geohashcli import --file=test_points.txt --precision=5 --batch=500 --format=csv
 ```
 - `--file` filename of the file in `csv` format
-- `--precision` = `1` to `12` is the value to set in the geohash generation process. If empty the precision will be 
+- `--precision` = Valid value should be in the following range `1` to `12`. 
   calculated based on the shortest GeoHash prefix that uniquely identifies this point.
 - `--format` = `json` | `csv`.It's means the console output int this iteration.
 - `--batch` batch size by defaul is `100`
